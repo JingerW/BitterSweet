@@ -1,5 +1,6 @@
 package com.example.bittersweet;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +16,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class LogoutAlert extends DialogFragment {
 
     @NonNull
@@ -25,7 +28,7 @@ public class LogoutAlert extends DialogFragment {
             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    logout();
+//                    logout();
                 }
             })
             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -37,15 +40,16 @@ public class LogoutAlert extends DialogFragment {
         return builder.create();
     }
 
-    private void logout() {
-        AuthUI.getInstance().signOut(getActivity())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // jump to login activity
-                        startActivity(new Intent(getContext(), LoginActivity.class));
-                        getActivity().finish();
-                    }
-                });
-    }
+//    @SuppressLint("RestrictedApi")
+//    private void logout() {
+//        AuthUI.getInstance().signOut(getApplicationContext())
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        // jump to login activity
+//                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                        getActivity().finish();
+//                    }
+//                });
+//    }
 }
