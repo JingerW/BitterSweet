@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="@string/drawer_home"/>
+    <item
+        android:id="@+id/nav_diary"
+        android:icon="@drawable/calendar"
+        android:title="@string/glucose_diary" />
+    <item
+        android:id="@+id/nav_analysis"
+        android:icon="@drawable/analysis"
+        android:title="@string/health_analysis" />
+    <item
+        android:id="@+id/nav_records"
+        android:icon="@drawable/collection"
+        android:title="@string/more_records" />
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24px_white"
+        android:title="@string/logout" />
+
+
+</menu>

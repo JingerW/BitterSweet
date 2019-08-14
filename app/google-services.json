@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "390563037398",
+    "firebase_url": "https://bittersweet-e4a21.firebaseio.com",
+    "project_id": "bittersweet-e4a21",
+    "storage_bucket": "bittersweet-e4a21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390563037398:android:3ecc90d3a066e94c",
+        "android_client_info": {
+          "package_name": "com.example.bittersweet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390563037398-ngnbi1ktnhsvj8mdlirve1gdn1nhhaoe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bittersweet",
+            "certificate_hash": "92c93d6e6c361211d5d979b4d8ed40e38cfa7e23"
+          }
+        },
+        {
+          "client_id": "390563037398-h5h41hl096vmbhdr3dd5idmgvboidvsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo6jAi6EZhd5o-uStdLoXCbr5jm3Xh774"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390563037398-h5h41hl096vmbhdr3dd5idmgvboidvsv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
