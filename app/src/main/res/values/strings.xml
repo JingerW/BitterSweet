@@ -12,19 +12,20 @@
     <string name="login_remember">Remember me</string>
 
     //sign up
-    <string name="signup_username">Please enter your username</string>
+    <string name="signup_username">Please create your username</string>
     <string name="signup_email">Please enter your email address</string>
     <string name="signup_password">Please create your password</string>
     <string name="signup_password_confirm">Please confirm your password</string>
     <string name="action_signup">Sign up</string>
     <string name="signup_login">Already have an account? Login here!</string>
     <string name="signup_terms">By creating an account, you agree to our terms</string>
+    <string name="sweetener">sweetener</string>
 
     //user info
     <string name="userinfo_0">Thank you so much for using BitterSweet!</string>
     <string name="userinfo_1">Life may be bitter but together we can make it sweet!</string>
     <string name="userinfo_2">Now we need to ask you a few more questions about your self. If you do not want to do this now, you can always come back later</string>
-    <string name="userinfo_3">How do we call you?</string>
+    <string name="userinfo_3">Please create your username</string>
     <string name="skip">skip</string>
     <string name="start">start</string>
     <string name="next">next</string>
@@ -41,5 +42,6 @@
 
     //buttons
     <string name="add_records">Add Record</string>
+    <string name="delete_account">Delete Account</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.example.bittersweet;
 
-public class UserInfoModal {
+import android.util.Log;
+
+public class User {
 
     String username = null;
     String gender = null;
@@ -12,10 +14,10 @@ public class UserInfoModal {
     String pill = null;
     String insulin = null;
 
-    UserInfoModal() {}
+    User() {}
 
-    public UserInfoModal(String username, String gender, String dob, double height, double weight,
-                         int diaType, int diaTime, String pill, String insulin) {
+    public User(String username, String gender, String dob, double height, double weight,
+                int diaType, int diaTime, String pill, String insulin) {
         this.username = username;
         this.gender = gender;
         this.dob = dob;
@@ -25,6 +27,12 @@ public class UserInfoModal {
         this.diaTime = diaTime;
         this.pill = pill;
         this.insulin = insulin;
+    }
+
+    public void showUser() {
+        Log.d("signupMessage", username+"/n"
+                +gender+"/n"+dob+"/n"+height+"/n"+weight+
+                "/n"+diaTime+"/n"+pill+"/n"+insulin);
     }
 
     public String getUsername() {

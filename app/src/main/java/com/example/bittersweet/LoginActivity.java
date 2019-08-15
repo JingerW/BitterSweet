@@ -28,6 +28,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.core.Tag;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login_button;
     private ProgressDialog progressDialog;
     private FirebaseApp ref;
-    private CheckBox remember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            this.finish();
+            // because firebase will save user session even if user is deleted from the database
+            // so check if user exists in the database before logging in
+            currentUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        }
+                    });
+
         }
     }
 
@@ -89,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginUser() {
         email = login_email.getText().toString();
         password = login_password.getText().toString();
+        Log.d("message", email+", "+password);
 
         String vali = validate(email, password);
         if (vali != "") {
@@ -162,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // save and commit
         email = login_email.getText().toString();
         password = login_password.getText().toString();
-        Log.d("saved preferences", email+", "+password);
+        Log.d("message", email+", "+password);
         editor.putString("email", email);
         editor.putString("password", password);
         editor.commit();
@@ -176,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password = prefs.getString(PREFS_PASS, DefaultPass);
         login_email.setText(email);
         login_password.setText(password);
-        Log.d("loaded preferences", email+","+password);
+        Log.d("message", email+","+password);
     }
 
     private void removePreferences() {
@@ -187,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.remove(PREFS_EMAIL);
         editor.remove(PREFS_PASS);
         editor.commit();
-        Log.d("removed preferences", "Removed");
+        Log.d("message", "Removed");
     }
 
     @Override

@@ -8,11 +8,25 @@
     android:background="@color/lightgreen">
 
     <EditText
-        android:id="@+id/signup_email"
+        android:id="@+id/signup_username"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="@dimen/input_length"
         android:layout_height="wrap_content"
         android:layout_marginTop="240dp"
+        android:layout_marginBottom="15dp"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:padding="@dimen/edittext_padding"
+        android:background="@color/white"
+        android:hint="@string/signup_username"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/signup_email"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="@dimen/input_length"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_username"
         android:layout_marginBottom="15dp"
         android:layout_centerHorizontal="true"
         android:singleLine="true"

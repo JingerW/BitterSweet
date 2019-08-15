@@ -40,4 +40,5 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-firestore:20.2.0'
 }

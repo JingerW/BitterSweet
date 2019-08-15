@@ -50,6 +50,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
             case R.id.nav_diary:
                 break;
@@ -58,6 +59,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_records:
                 break;
             case R.id.nav_setting:
+                startActivity(new Intent(getApplicationContext(), SettingActivity.class));
                 break;
             case R.id.nav_logout:
                 // show logout alert
