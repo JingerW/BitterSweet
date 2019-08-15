@@ -9,6 +9,7 @@
     <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
     <string name="login_signup">Do not have an account? Sign up here!</string>
+    <string name="login_remember">Remember me</string>
 
     //sign up
     <string name="signup_username">Please enter your username</string>
