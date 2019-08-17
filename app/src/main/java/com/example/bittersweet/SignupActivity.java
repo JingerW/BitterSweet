@@ -33,10 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "SignupActivityDebug";
 
     private static final String PREFS_NAME = "preferences";
     private static final String COLLECTION_NAME = "User";
@@ -53,10 +56,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
     private FirebaseUser currentUser;
-    private DatabaseReference userReference;
-    private FirebaseFirestore firestore;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         login_link = (TextView) findViewById(R.id.signup_login);
         signup_button = (Button) findViewById(R.id.signup_button);
@@ -113,46 +114,43 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                                 // save preferences for next use
                                 savePreferences();
+                                savePreferencesSignup();
 
                                 // message alert
                                 progressDialog.cancel();
                                 Toast.makeText(SignupActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
-                                Log.d("signupMessage", "Signup successful, proceed to save data into database");
-                                Log.d("signupMessage", username+", "+email);
-                                addUser(username);
+                                Log.d(TAG, "Signup successful, proceed to save data into database");
+                                currentUser = firebaseAuth.getCurrentUser();
+                                // add user info into database
+                                String uid = currentUser.getUid();
+                                Log.d(TAG, uid);
+                                User user = new User();
+                                user.setUsername(username);
+                                Log.d(TAG, user.showUser());
+                                Log.d(TAG, "start saving");
+                                db.collection(COLLECTION_NAME).document(uid)
+                                        .set(user)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG,"\nadded");
+                                                }
+                                                else {
+                                                    Log.d(TAG, task.getException().getMessage());
+                                                }
+                                            }
+                                        });
+                                Log.d(TAG, "end saving");
 
-                                startActivity(new Intent(SignupActivity.this, UserInfoActivity.class));
+                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
                             } else {
-                                Toast.makeText(SignupActivity.this, "Sign up failed, please try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
                             }
                         }
                     });
         }
-    }
-
-    private void addUser(String username) {
-        currentUser = firebaseAuth.getCurrentUser();
-        String uid = currentUser.getUid();
-        Log.d("signupMessage",uid);
-
-        User user = new User();
-        user.setUsername(username);
-        user.showUser();
-
-        DocumentReference userCollection = firestore.collection(COLLECTION_NAME).document(uid);
-        userCollection.set(user, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("signupMessage","user added successful");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("signupMessage","user added failed");
-            }
-        });
-
     }
 
     private String validate(String email, String password, String passConf) {
@@ -211,9 +209,51 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         // save and commit
         email = signup_email.getText().toString();
         password = signup_password.getText().toString();
-        Log.d("message", email + ", " + password);
+        Log.d(TAG, email + ", " + password);
         editor.putString("email", email);
         editor.putString("password", password);
         editor.commit();
     }
+
+    private void savePreferencesSignup() {
+        SharedPreferences prefs = getSharedPreferences("signupPreference", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // save and commit
+        username = signup_username.getText().toString();
+        email = signup_email.getText().toString();
+        password = signup_password.getText().toString();
+        Log.d(TAG, "save: "+username+", "+email+", "+password);
+        editor.putString("username", username);
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    private void loadPreferencesSignup() {
+        SharedPreferences prefs = getSharedPreferences("signupPreference", Context.MODE_PRIVATE);
+
+        // load preferences
+        username = prefs.getString("username", "");
+        email = prefs.getString("email", "");
+        password = prefs.getString("password", "");
+        signup_username.setText(username);
+        signup_email.setText(email);
+        signup_password.setText(password);
+        signup_password_confirm.setText(password);
+        Log.d(TAG, "load: "+username+", "+email+", "+password);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        savePreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPreferencesSignup();
+    }
+
 }

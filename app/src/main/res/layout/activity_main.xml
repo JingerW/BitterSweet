@@ -7,10 +7,22 @@
     tools:context=".MainActivity"
     android:background="@color/lightgreen">
 
-    <TextView
+    <Button
+        android:id="@+id/main_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="add user to database"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:id="@+id/main_delete_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_test"
+        android:text="delete user from database"
+        android:background="@color/white"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 

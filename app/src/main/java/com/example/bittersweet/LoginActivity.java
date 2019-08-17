@@ -33,6 +33,8 @@ import com.google.firebase.database.core.Tag;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "LoginActivity";
+
     private static final String PREFS_NAME = "preferences";
     private static final String PREFS_EMAIL = "email";
     private static final String PREFS_PASS = "password";
@@ -100,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginUser() {
         email = login_email.getText().toString();
         password = login_password.getText().toString();
-        Log.d("message", email+", "+password);
+        Log.d(TAG, email+", "+password);
 
         String vali = validate(email, password);
         if (vali != "") {
@@ -117,14 +119,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Log.d("message: ", "Login successfully");
+                                Log.d(TAG, "Login successfully");
                                 progressDialog.cancel();
                                 currentUser = firebaseAuth.getCurrentUser();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             } else {
-                                Log.w("Erro message: ", "Login failed", task.getException());
+                                Log.w(TAG, "Login failed", task.getException());
                                 progressDialog.cancel();
-                                Toast.makeText(LoginActivity.this, "Login failed. Please check your email or password is correct", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
@@ -174,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // save and commit
         email = login_email.getText().toString();
         password = login_password.getText().toString();
-        Log.d("message", email+", "+password);
+        Log.d(TAG, email+", "+password);
         editor.putString("email", email);
         editor.putString("password", password);
         editor.commit();
@@ -188,18 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password = prefs.getString(PREFS_PASS, DefaultPass);
         login_email.setText(email);
         login_password.setText(password);
-        Log.d("message", email+","+password);
-    }
-
-    private void removePreferences() {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // remove saved preference
-        editor.remove(PREFS_EMAIL);
-        editor.remove(PREFS_PASS);
-        editor.commit();
-        Log.d("message", "Removed");
+        Log.d(TAG, email+","+password);
     }
 
     @Override

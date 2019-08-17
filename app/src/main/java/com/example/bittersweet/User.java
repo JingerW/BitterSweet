@@ -29,10 +29,10 @@ public class User {
         this.insulin = insulin;
     }
 
-    public void showUser() {
-        Log.d("signupMessage", username+"/n"
-                +gender+"/n"+dob+"/n"+height+"/n"+weight+
-                "/n"+diaTime+"/n"+pill+"/n"+insulin);
+    public String showUser() {
+        return"signupMessage: "+username+"\n"
+                +gender+"\n"+dob+"\n"+height+"\n"+weight+
+                "\n"+diaTime+"\n"+pill+"\n"+insulin;
     }
 
     public String getUsername() {

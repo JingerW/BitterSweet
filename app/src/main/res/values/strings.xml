@@ -29,6 +29,7 @@
     <string name="skip">skip</string>
     <string name="start">start</string>
     <string name="next">next</string>
+    <string name="back">back</string>
 
     //drawer menu
     <string name="drawer_home">Home</string>
@@ -43,5 +44,9 @@
     //buttons
     <string name="add_records">Add Record</string>
     <string name="delete_account">Delete Account</string>
+
+    //settings
+    <string name="delete_title">Are you sure?</string>
+    <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
 </resources>
