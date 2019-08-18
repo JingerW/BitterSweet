@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class UserInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserInfoActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private Button start;
@@ -25,11 +25,13 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
+        // set fragment to user info page 1
         Fragment userinfo1 = new UserInfo1();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.userinfo_container, userinfo1);
         ft.commit();
 
+        // set up tool bar
         toolbar = (Toolbar) findViewById(R.id.userinfo_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -37,17 +39,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         toolbar.inflateMenu(R.menu.user_info_menu);
 
         // show back button if it's not the first fragment of user info
-
-        start = (Button) findViewById(R.id.userinfo_start);
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        int i = view.getId();
-        if (i == R.id.userinfo_start) {
-
-        }
 
     }
 

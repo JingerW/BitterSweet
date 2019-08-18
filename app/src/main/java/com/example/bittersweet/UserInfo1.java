@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,9 +26,7 @@ public class UserInfo1 extends Fragment {
     private static final String TAG = "Userinfo1";
 
     private Button start;
-    private Button dob;
-
-    private DatePickerDialog.OnDateSetListener mdateSetListener;
+    private FragmentTransaction ft;
 
     @Nullable
     @Override
@@ -35,35 +34,15 @@ public class UserInfo1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_info_1, container, false);
 
         start = (Button) view.findViewById(R.id.userinfo_start);
-//        start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
-        dob = (Button) view.findViewById(R.id.userinfo_dob_button);
-        dob.setOnClickListener(new View.OnClickListener() {
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dateDialog = new DatePickerDialog(getContext(),
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year, month, day);
-                dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dateDialog.show();
+                Fragment userinfo2 = new UserInfo2();
+                ft = getFragmentManager().beginTransaction();
+                ft.add(R.id.userinfo_container, userinfo2);
+                ft.commit();
             }
         });
-
-        mdateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                Log.d(TAG, "DateSet: date: "+i+"/"+i1+"/"+i2);
-            }
-        };
 
 
         return view;

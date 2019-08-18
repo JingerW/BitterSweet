@@ -1,12 +1,18 @@
 package com.example.bittersweet;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -16,14 +22,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
+
 
 public class MainActivity extends DrawerActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivityDebug";
     private static final String COLLECTION_NAME = "User";
 
-    private Button test;
-    private Button test_delete;
+    private Button addUserinfo;
+    private Button deleteUserinfo;
+    private TextView dob;
+    private DatePickerDialog.OnDateSetListener mdateSetListener;
+    private RadioGroup gender_group;
+    private RadioGroup.OnCheckedChangeListener mradioGroupListener;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
@@ -40,17 +52,36 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         currentUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        test = (Button) findViewById(R.id.main_test);
-        test.setOnClickListener(this);
+        addUserinfo = (Button) findViewById(R.id.add_userinfo);
+        addUserinfo.setOnClickListener(this);
 
-        test_delete = (Button) findViewById(R.id.main_delete_test);
-        test_delete.setOnClickListener(this);
+        deleteUserinfo = (Button) findViewById(R.id.delete_userinfo);
+        deleteUserinfo.setOnClickListener(this);
+
+        dob = (TextView) findViewById(R.id.dob_input);
+        dob.setOnClickListener(this);
+
+        mdateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                // i = year, i1 = month, i2 = day
+                Log.d(TAG, "DateSet: date: "+i+"/"+i1+"/"+i2);
+                dob.setText(i2+"/"+i1+"/"+i);
+            }
+        };
+
+        gender_group = (RadioGroup) findViewById(R.id.gender_group);
+        gender_group.setOnCheckedChangeListener(mradioGroupListener);
+
+
     }
+
+
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.main_test) {
+        if (i == R.id.add_userinfo) {
             String uid = currentUser.getUid();
             Log.d(TAG, uid);
 
@@ -70,7 +101,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
                             }
                         }
                     });
-        } else if (i == R.id.main_delete_test) {
+        } else if (i == R.id.delete_userinfo) {
             String uid = currentUser.getUid();
             Log.d(TAG, uid);
 
@@ -87,6 +118,16 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
                             }
                         }
                     });
+        } else if (i == R.id.dob_input) {
+            Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dateDialog = new DatePickerDialog(MainActivity.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year, month, day);
+            dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dateDialog.show();
         }
     }
 
