@@ -143,7 +143,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                         });
                                 Log.d(TAG, "end saving");
 
-                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                startActivity(new Intent(SignupActivity.this, UserInfoActivity.class));
                             } else {
                                 Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();

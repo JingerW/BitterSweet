@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/gray"
+        android:background="@color/grey"
         android:visibility="invisible"/>
 
     <Button

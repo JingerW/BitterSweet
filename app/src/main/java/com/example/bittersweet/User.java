@@ -9,7 +9,7 @@ public class User {
     String dob = null;
     double height = 0;
     double weight = 0;
-    int diaType = 0;
+    String diaType = null;
     int diaTime = 0;
     String pill = null;
     String insulin = null;
@@ -17,7 +17,7 @@ public class User {
     User() {}
 
     public User(String username, String gender, String dob, double height, double weight,
-                int diaType, int diaTime, String pill, String insulin) {
+                String diaType, int diaTime, String pill, String insulin) {
         this.username = username;
         this.gender = gender;
         this.dob = dob;
@@ -55,7 +55,7 @@ public class User {
         return weight;
     }
 
-    public int getDiaType() {
+    public String getDiaType() {
         return diaType;
     }
 
@@ -91,7 +91,7 @@ public class User {
         this.weight = weight;
     }
 
-    public void setDiaType(int diaType) {
+    public void setDiaType(String diaType) {
         this.diaType = diaType;
     }
 
