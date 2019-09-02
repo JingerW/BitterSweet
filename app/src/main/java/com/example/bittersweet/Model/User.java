@@ -1,4 +1,4 @@
-package com.example.bittersweet;
+package com.example.bittersweet.Model;
 
 import android.util.Log;
 
@@ -14,7 +14,7 @@ public class User {
     String pill = null;
     String insulin = null;
 
-    User() {}
+    public User() {}
 
     public User(String username, String gender, String dob, double height, double weight,
                 String diaType, int diaTime, String pill, String insulin) {

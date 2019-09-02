@@ -8,10 +8,10 @@
     android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/blood_glucose_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent_Translucent"
-        />
+        android:background="@color/colorAccent_Translucent" />
 
     <!-- blood glucose input -->
     <RelativeLayout
@@ -94,114 +94,133 @@
         android:gravity="center"
         android:background="@drawable/green_white_bar">
 
-        <ToggleButton
-            android:id="@+id/breakfast"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:background="@drawable/breakfast_label"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:textOff=""
-            android:textOn=""/>
+        <RadioGroup
+            android:id="@+id/label_meal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
+            <RadioButton
+                android:id="@+id/breakfast"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:background="@drawable/breakfast_label"
+                android:button="@color/fui_transparent"/>
+
+            <RadioButton
+                android:id="@+id/lunch"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/lunch_label"
+                android:button="@color/fui_transparent"/>
+
+            <RadioButton
+                android:id="@+id/dinner"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/dinner_label"
+                android:button="@color/fui_transparent"/>
+
+        </RadioGroup>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/icon_text_height"
-            android:text="Breakfast"
-            android:layout_below="@id/breakfast"
-            android:textSize="12sp"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            android:layout_below="@id/label_meal1"
+            android:layout_alignStart="@id/label_meal1">
 
-        <ToggleButton
-            android:id="@+id/lunch"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_toEndOf="@id/breakfast"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/lunch_label"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:textOff=""
-            android:textOn=""/>
-        <TextView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@+id/lunch"
-            android:layout_alignStart="@+id/lunch"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:text="Lunch"
-            android:textSize="12sp"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/icon_text_height"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="Breakfast"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:gravity="center"/>
 
-        <ToggleButton
-            android:id="@+id/dinner"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_toEndOf="@id/lunch"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/dinner_label"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:textOff=""
-            android:textOn=""/>
-        <TextView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@+id/dinner"
-            android:layout_alignStart="@+id/dinner"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:text="Dinner"
-            android:textSize="12sp"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            <TextView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_text_height"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="Lunch"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:gravity="center"/>
 
-        <ToggleButton
-            android:id="@+id/before_meal"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_toEndOf="@id/dinner"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/before_meal_label"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:textOff=""
-            android:textOn=""/>
-        <TextView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@+id/before_meal"
-            android:layout_alignStart="@+id/before_meal"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:text="Before meal"
-            android:textSize="12sp"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            <TextView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_text_height"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="Dinner"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:gravity="center"/>
 
-        <ToggleButton
-            android:id="@+id/after_meal"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_toEndOf="@id/before_meal"
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/label_meal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/label_meal1"
             android:layout_marginStart="20dp"
-            android:background="@drawable/after_meal_label"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:textOff=""
-            android:textOn=""/>
-        <TextView
-            android:layout_width="@dimen/icon_size"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/before_meal"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:background="@drawable/before_meal_label"
+                android:button="@color/fui_transparent"/>
+
+            <RadioButton
+                android:id="@+id/after_meal"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/after_meal_label"
+                android:button="@color/fui_transparent"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@+id/after_meal"
-            android:layout_alignStart="@+id/after_meal"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:text="After meal"
-            android:textSize="12sp"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            android:layout_below="@id/label_meal2"
+            android:layout_alignStart="@id/label_meal2">
+
+            <TextView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_text_height"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="Before meal"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+            <TextView
+            android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_text_height"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="After meal"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
+    <!-- notes of input -->
     <RelativeLayout
         android:id="@+id/blood_glucose_note"
         android:layout_width="match_parent"
@@ -212,7 +231,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
+        android:padding="0dp"
         android:background="@drawable/green_white_bar">
 
         <TextView
@@ -230,7 +249,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/blood_glucose_note_label"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/green_white_bar"/>
+            android:background="@drawable/green_white_bar"
+            android:inputType="textMultiLine|textCapSentences"
+            android:textSize="18sp"
+            android:padding="5dp"/>
 
     </RelativeLayout>
 

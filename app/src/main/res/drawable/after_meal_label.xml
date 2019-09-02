@@ -3,8 +3,6 @@
 
     <item android:state_checked="true"
         android:drawable="@drawable/after_meal" />
-    <item
-        android:state_checked="false"
+    <item android:state_checked="false"
         android:drawable="@drawable/after_meal_bw" />
-
 </selector>
