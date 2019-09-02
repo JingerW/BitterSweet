@@ -74,7 +74,6 @@ public class SettingActivity extends DrawerActivity implements View.OnClickListe
                 delete_progress.setVisibility(View.VISIBLE);
 
                 deleteUser();
-                deleteUserData();
             }
         });
         dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -89,6 +88,7 @@ public class SettingActivity extends DrawerActivity implements View.OnClickListe
     }
 
     private void deleteUser() {
+        deleteUserData();
         currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

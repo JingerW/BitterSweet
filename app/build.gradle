@@ -38,6 +38,12 @@ dependencies {
     //HelloCharts
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 
+    //MPAndroidCharts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //CursorWheelLayout
+    implementation 'github.hellocsl:CursorWheelLayout:1.1.0'
+
     //Firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-firestore:20.2.0'

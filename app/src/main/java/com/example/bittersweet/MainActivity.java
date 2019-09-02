@@ -2,6 +2,7 @@ package com.example.bittersweet;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,16 +47,10 @@ public class MainActivity extends DrawerActivity {
     private Button addUserinfo;
     private Button deleteUserinfo;
     private Button updateUserinfo;
-    private TextView dob, yod;
-    private DatePickerDialog.OnDateSetListener mdateSetListener;
-    private RadioGroup genderGroup;
-    private Spinner diabetesType;
-    private Button userinfoUpdate;
-    private String dateOfBirth = null;
-    private String dtype = null;
-    private String gender = null;
-    private int yearOfDiagnose = 0;
-    private User user;
+
+    private Button addRecord;
+
+    private LineChart mChart;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
@@ -76,16 +72,14 @@ public class MainActivity extends DrawerActivity {
         deleteUserinfo();
 
 //        updateUserinfo();
-//
-//        selectDoB();
-//
-//        genderGroup = (RadioGroup) findViewById(R.id.gender_group);
-//
-//        selectDiabetesType();
-//
-//        createYearOfDiagnosePicker();
-//
-//        userInfoUpdate();
+
+        addRecord = (Button) findViewById(R.id.add_record);
+        addRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, AddRecordActivity.class));
+            }
+        });
 
     }
 
@@ -144,137 +138,29 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
-//    private void updateUserinfo(final Map<String, Object> updateinfo) {
-//        updateUserinfo = (Button) findViewById(R.id.update_userinfo);
-//        updateUserinfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uid = currentUser.getUid();
-//                Log.d(TAG, uid);
-//
-//                db.collection(COLLECTION_NAME).document(uid)
-//                        .update(updateinfo)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG,"\nupdated");
-//                                }
-//                                else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//    }
-//
-//    private void selectDoB() {
-//        dob = (TextView) findViewById(R.id.dob_input);
-//        dob.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Calendar c = Calendar.getInstance();
-//                int year = c.get(Calendar.YEAR);
-//                int month = c.get(Calendar.MONTH);
-//                int day = c.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dateDialog = new DatePickerDialog(MainActivity.this,
-//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year, month, day);
-//                dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dateDialog.show();
-//            }
-//        });
-//
-//        mdateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-//                // i = year, i1 = month, i2 = day
-//                Log.d(TAG, "DateSet: date: "+i+"/"+i1+"/"+i2);
-//                dob.setText(i2+"/"+i1+"/"+i);
-//            }
-//        };
-//    }
-//
-//    private void selectDiabetesType() {
-//        diabetesType = (Spinner) findViewById(R.id.diabetes_type_dropdown);
-//        ArrayAdapter<CharSequence> adaptor = ArrayAdapter.createFromResource(this, R.array.diabetes_type, android.R.layout.simple_spinner_item);
-//        adaptor.setDropDownViewResource(R.layout.spinner_view);
-//        diabetesType.setAdapter(adaptor);
-//        diabetesType.setSelection(0);
-////        diabetesType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-////            @Override
-////            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-////                dtype = adapterView.getItemAtPosition(i).toString();
-////            }
-////
-////            @Override
-////            public void onNothingSelected(AdapterView<?> adapterView) {
-////            }
-////        });
-//    }
-//
-//    private void createYearOfDiagnosePicker() {
-//
-//        yod = (TextView) findViewById(R.id.date_of_diag_input);
-//        yod.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openYearPicker();
-//            }
-//        });
-//    }
-//
-//    private void openYearPicker() {
-//        YearPickerDialog yearPickerDialog = new YearPickerDialog();
-//        yearPickerDialog.show(getSupportFragmentManager(), "year picker");
-//    }
-//
-//    @Override
-//    public void applyText(int year) {
-//        yod.setText(Integer.toString(year));
-//    }
-//
-//    private void userInfoUpdate() {
-//        userinfoUpdate = (Button) findViewById(R.id.userinfo_button);
-//        userinfoUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dateOfBirth = dob.getText().toString();
-//                dtype = diabetesType.getSelectedItem().toString();
-////                RadioButton selectedButton = (RadioButton) diabetesType.getChildAt(diabetesType.getSelectedItemPosition());
-////                String gender = selectedButton.getText().toString();
-//                int selectedButtonId = genderGroup.getCheckedRadioButtonId();
-//                RadioButton selectedButton = (RadioButton) genderGroup.findViewById(selectedButtonId);
-//                gender = selectedButton.getText().toString();
-//                yearOfDiagnose = Integer.parseInt(yod.getText().toString());
-//
-//                Log.d(TAG, dateOfBirth+", \n"+dtype+", \n"+gender+", \n"+yearOfDiagnose);
-//
-//                Map<String, Object> docData = new HashMap<>();
-//                docData.put("dob",dateOfBirth);
-//                docData.put("diaType",dtype);
-//                docData.put("gender",gender);
-//                docData.put("diaTime",yearOfDiagnose);
-//
-//                String uid = currentUser.getUid();
-//                Log.d(TAG, uid);
-//
-//                db.collection(COLLECTION_NAME).document(uid)
-//                        .update(docData)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG,"\nupdated");
-//                                }
-//                                else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//    }
+    private void updateUserinfo(final Map<String, Object> updateinfo) {
+        updateUserinfo = (Button) findViewById(R.id.update_userinfo);
+        updateUserinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uid = currentUser.getUid();
+                Log.d(TAG, uid);
+
+                db.collection(COLLECTION_NAME).document(uid)
+                        .update(updateinfo)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG,"\nupdated");
+                                }
+                                else {
+                                    Log.d(TAG, task.getException().getMessage());
+                                }
+                            }
+                        });
+            }
+        });
+    }
 
 }

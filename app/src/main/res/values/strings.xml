@@ -61,4 +61,6 @@
     <string name="delete_title">Are you sure?</string>
     <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
+    //blood glucose record
+
 </resources>

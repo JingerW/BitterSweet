@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddRecordActivity"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent_Translucent"
+        />
+
+    <!-- blood glucose input -->
+    <RelativeLayout
+        android:id="@+id/blood_glucose_bg"
+        android:layout_width="260dp"
+        android:layout_height="250dp"
+        android:background="@drawable/drop_green"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <EditText
+            android:id="@+id/blood_glucose"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="130dp"
+            android:background="@drawable/glucose_drop_button_green"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:hint="Click here to enter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blood_glucose"
+            android:layout_centerHorizontal="true"
+            android:hint="mmog/L"/>
+
+    </RelativeLayout>
+
+    <!-- time of input -->
+    <LinearLayout
+        android:id="@+id/blood_glucose_time_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blood_glucose_bg"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="60dp"
+        android:padding="10dp"
+        android:background="@drawable/green_white_bar">
+
+        <TextView
+            android:id="@+id/blood_glucose_date"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/green"
+            android:text="Please select date"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/blood_glucose_time"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@color/green"
+            android:text="Please enter time"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
+
+    </LinearLayout>
+
+    <!-- label of input -->
+    <RelativeLayout
+        android:id="@+id/blood_glucose_label_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blood_glucose_time_group"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/green_white_bar">
+
+        <ToggleButton
+            android:id="@+id/breakfast"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:background="@drawable/breakfast_label"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textOff=""
+            android:textOn=""/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/icon_text_height"
+            android:text="Breakfast"
+            android:layout_below="@id/breakfast"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ToggleButton
+            android:id="@+id/lunch"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_toEndOf="@id/breakfast"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/lunch_label"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textOff=""
+            android:textOn=""/>
+        <TextView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_text_height"
+            android:layout_below="@+id/lunch"
+            android:layout_alignStart="@+id/lunch"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="Lunch"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ToggleButton
+            android:id="@+id/dinner"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_toEndOf="@id/lunch"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/dinner_label"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textOff=""
+            android:textOn=""/>
+        <TextView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_text_height"
+            android:layout_below="@+id/dinner"
+            android:layout_alignStart="@+id/dinner"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="Dinner"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ToggleButton
+            android:id="@+id/before_meal"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_toEndOf="@id/dinner"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/before_meal_label"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textOff=""
+            android:textOn=""/>
+        <TextView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_text_height"
+            android:layout_below="@+id/before_meal"
+            android:layout_alignStart="@+id/before_meal"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="Before meal"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ToggleButton
+            android:id="@+id/after_meal"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_toEndOf="@id/before_meal"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/after_meal_label"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textOff=""
+            android:textOn=""/>
+        <TextView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_text_height"
+            android:layout_below="@+id/after_meal"
+            android:layout_alignStart="@+id/after_meal"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="After meal"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/blood_glucose_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blood_glucose_label_group"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:background="@drawable/green_white_bar">
+
+        <TextView
+            android:id="@+id/blood_glucose_note_label"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/green"
+            android:text="Notes"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"/>
+
+        <EditText
+            android:id="@+id/blood_glucose_note_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blood_glucose_note_label"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/green_white_bar"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

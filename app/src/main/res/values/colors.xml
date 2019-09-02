@@ -5,4 +5,8 @@
     <color name="lightgreen">#dfedd6</color>
     <color name="black">#000000</color>
     <color name="grey">#c0c0c0</color>
+    <color name="drop_green">#C5FFA3</color>
+    <color name="light_red">#FFDCDC</color>
+    <color name="light_yellow">#FDFFDC</color>
+    <color name="light_blue">#DCF5FF</color>
 </resources>
