@@ -62,6 +62,13 @@
     <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
     //blood glucose record
+    <string name="glucose_hint">Click here to enter</string>
+    <string name="glucose_unit">mmog/L</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="before_meal">Before meal</string>
+    <string name="after_meal">After meal</string>
 
     //months
     <string-array name="months">
@@ -77,6 +84,19 @@
         <item>Oct</item>
         <item>Nov</item>
         <item>Dec</item>
+    </string-array>
+
+    //hour
+    <string-array name="hours">
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+
     </string-array>
 
 </resources>
