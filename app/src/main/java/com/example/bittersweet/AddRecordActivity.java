@@ -287,7 +287,7 @@ public class AddRecordActivity extends AppCompatActivity {
 
     private BloodGlucose getInputs() {
         bg = new BloodGlucose();
-        bg.setBloodGlucose(bgLevel);
+        bg.setBloodGlucose(Double.parseDouble(bloodGlucoseLevel.getText().toString()));
         bg.setInputDate(dateString);
         bg.setInputTime(timeString);
         bg.setInputLabels(getSelectedLabel());

@@ -42,10 +42,10 @@
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/hello_chart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_marginTop="100dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
 
     <Button
         android:id="@+id/add_record"

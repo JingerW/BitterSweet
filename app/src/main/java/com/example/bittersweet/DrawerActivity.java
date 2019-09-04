@@ -14,25 +14,46 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.bittersweet.Model.BloodGlucose;
+import com.example.bittersweet.Model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "DrawerActivityDebug";
+    private static final String COLLECTION_NAME = "User";
+
     public DrawerLayout drawerLayout;
-    protected FrameLayout frameLayout;
     protected NavigationView drawerView;
     protected ActionBarDrawerToggle drawerToggle;
     protected AlertDialog.Builder dialog;
+    private View headerView;
+    private ImageView user_avatar;
+    private TextView username;
+    private TextView email;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
+    private FirebaseFirestore db;
+    private String uid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +72,43 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         drawerView = (NavigationView) findViewById(R.id.drawer);
         drawerView.setNavigationItemSelectedListener(this);
 
+        headerView = drawerView.getHeaderView(0);
+        user_avatar = (ImageView) headerView.findViewById(R.id.drawer_avatar);
+        username = (TextView) headerView.findViewById(R.id.drawer_username);
+        email = (TextView) headerView.findViewById(R.id.drawer_email_address);
 
+        getUserHeader();
+
+    }
+
+    private void getUserHeader() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        uid = currentUser.getUid();
+
+        db.collection(COLLECTION_NAME).document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            User user = document.toObject(User.class);
+
+                            if (user.getGender() == "boy") {
+                                user_avatar.setImageDrawable(getResources().getDrawable(R.drawable.boy_avatar));
+                            } else {
+                                user_avatar.setImageDrawable(getResources().getDrawable(R.drawable.girl_avatar));
+                            }
+
+                            username.setText(user.getUsername());
+                            email.setText(currentUser.getEmail());
+                        } else {
+                            Log.d(TAG, task.getException().getMessage());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -64,8 +121,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_diary:
                 break;
             case R.id.nav_analysis:
-                break;
-            case R.id.nav_records:
                 break;
             case R.id.nav_setting:
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class));

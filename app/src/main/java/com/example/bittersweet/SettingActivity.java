@@ -13,10 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bittersweet.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -24,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SettingActivity extends DrawerActivity implements View.OnClickListener {
@@ -34,10 +38,14 @@ public class SettingActivity extends DrawerActivity implements View.OnClickListe
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
     private FirebaseFirestore db;
+    private String uid;
 
     private Button button_delete;
     private ProgressBar delete_progress;
     AlertDialog.Builder dialog;
+    private ImageView settingAvatar;
+    private TextView settingUsername;
+    private TextView settingEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +57,42 @@ public class SettingActivity extends DrawerActivity implements View.OnClickListe
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        uid = currentUser.getUid();
 
         button_delete = (Button) findViewById(R.id.setting_delete);
         button_delete.setOnClickListener(this);
         delete_progress = (ProgressBar) findViewById(R.id.delet_progressbar);
+
+        setUserInfo();
+    }
+
+    private void setUserInfo() {
+        settingAvatar = (ImageView) findViewById(R.id.setting_avatar);
+        settingUsername = (TextView) findViewById(R.id.setting_username);
+        settingEmail = (TextView) findViewById(R.id.setting_email);
+
+        db.collection(COLLECTION_NAME).document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            User user = document.toObject(User.class);
+
+                            if (user.getGender() == "boy") {
+                                settingAvatar.setImageDrawable(getResources().getDrawable(R.drawable.boy_avatar));
+                            } else {
+                                settingAvatar.setImageDrawable(getResources().getDrawable(R.drawable.girl_avatar));
+                            }
+
+                            settingUsername.setText(user.getUsername());
+                            settingEmail.setText(currentUser.getEmail());
+                        } else {
+                            Log.d(TAG, task.getException().getMessage());
+                        }
+                    }
+                });
     }
 
     @Override

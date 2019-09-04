@@ -16,10 +16,6 @@
         android:icon="@drawable/analysis"
         android:title="@string/health_analysis" />
     <item
-        android:id="@+id/nav_records"
-        android:icon="@drawable/collection"
-        android:title="@string/more_records" />
-    <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/settings" />
