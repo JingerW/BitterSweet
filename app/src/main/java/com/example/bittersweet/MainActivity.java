@@ -46,8 +46,7 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
-
-public class MainActivity extends DrawerActivity {
+public class MainActivity<_> extends DrawerActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivityDebug";
     private static final String COLLECTION_NAME = "User";
@@ -59,6 +58,7 @@ public class MainActivity extends DrawerActivity {
 
     private Button addRecord;
     private Button getRecord;
+    private Button createRecords;
 
     private LineChartView helloChart;
     private ArrayList<BloodGlucose> records;
@@ -81,7 +81,7 @@ public class MainActivity extends DrawerActivity {
 
         setFireStore();
 
-        setAddRecord();
+        setButtons();
 
     }
 
@@ -118,7 +118,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     private void setHelloLineChart(ArrayList<BloodGlucose> records) {
-        helloChart = (LineChartView) findViewById(R.id.hello_chart);
+        helloChart = (LineChartView) findViewById(R.id.main_display_chart);
 
         // x axis labels
         xaxisLabel = new ArrayList<>();
@@ -224,15 +224,30 @@ public class MainActivity extends DrawerActivity {
 
     }
 
-    private void setAddRecord() {
+    private void setButtons() {
+
         addRecord = (Button) findViewById(R.id.add_record);
-        addRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddRecordActivity.class));
-            }
-        });
+        addRecord.setOnClickListener(this);
+
+        createRecords = (Button) findViewById(R.id.create_records);
+        createRecords.setOnClickListener(this);
     }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.add_record:
+                startActivity(new Intent(MainActivity.this, AddRecordActivity.class));
+            case R.id.get_record:
+                //td
+            case R.id.create_records:
+                createTestData();
+        }
+    }
+
+    private void createTestData() {
+
+    }
+
 
 //    private void setGetRecord() {
 //        getRecord = (Button) findViewById(R.id.get_record);

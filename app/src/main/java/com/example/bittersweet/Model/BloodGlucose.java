@@ -65,4 +65,11 @@ public class BloodGlucose {
     public void setInputNotes(String inputNotes) {
         this.inputNotes = inputNotes;
     }
+
+    public boolean checkInput() {
+        if (bloodGlucose == 0 || inputDate == null || inputTime == null) {
+            return false;
+        }
+        else {return true;}
+    }
 }

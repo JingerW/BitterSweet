@@ -53,15 +53,16 @@
     <string name="logout">Logout</string>
     <string name="logout_alert">Log out this account?</string>
 
-    //buttons
+    //Main activity
     <string name="add_records">Add Record</string>
     <string name="delete_account">Delete Account</string>
+    <string name="create_records">Create Records</string> // for test purpose
 
     //settings
     <string name="delete_title">Are you sure?</string>
     <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
-    //blood glucose record
+    //add record activity
     <string name="glucose_hint">Click here to enter</string>
     <string name="glucose_unit">mmog/L</string>
     <string name="breakfast">Breakfast</string>
@@ -69,6 +70,9 @@
     <string name="dinner">Dinner</string>
     <string name="before_meal">Before meal</string>
     <string name="after_meal">After meal</string>
+
+    <string name="valid_bg_level_warning">Please enter a valid number</string>
+    <string name="save_warning">Please enter your blood glucose level</string>
 
     //months
     <string-array name="months">

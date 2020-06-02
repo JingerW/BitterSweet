@@ -96,20 +96,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             // validation finished, show progress bar to the user
             progressDialog.setMessage("Signing up...");
             progressDialog.show();
-
             // firebaseAuth create user with email and password
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // successfully create user
-                                // transfer to home page
-
-                                // save preferences for next use
+                                // successfully create user transfer to home page save preferences for next use
                                 savePreferences();
                                 savePreferencesSignup();
-
                                 // message alert
                                 progressDialog.cancel();
                                 Toast.makeText(SignupActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
@@ -127,16 +122,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.d(TAG,"\nadded");
-                                                }
-                                                else {
-                                                    Log.d(TAG, task.getException().getMessage());
-                                                }
-                                            }
-                                        });
+                                                if (task.isSuccessful()) {Log.d(TAG,"\nadded"); }
+                                                else {Log.d(TAG, task.getException().getMessage()); }}});
                                 Log.d(TAG, "end saving");
-
                                 startActivity(new Intent(SignupActivity.this, UserInfoActivity.class));
                             } else {
                                 Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

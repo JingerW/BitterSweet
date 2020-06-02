@@ -65,7 +65,6 @@ public class AddRecordActivity extends AppCompatActivity {
     private ArrayList<String> labels;
 
     private EditText inputNotes;
-    private BloodGlucose bg;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
@@ -78,11 +77,11 @@ public class AddRecordActivity extends AppCompatActivity {
 
         setFireStore();
 
+        setToolbar();
+
         setBloodGlucoseLevel();
 
         setInputDateTime();
-
-        setToolbar();
 
         setInputLabel();
 
@@ -113,31 +112,37 @@ public class AddRecordActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.save_button) {
-            //get current user id
+
+        // check save button id and check blood glucose level is not empty
+        if (id == R.id.save_button ) {
+            // get current user id
             String uid = currentUser.getUid();
             Log.d(TAG, uid);
 
-            //get user inputs
-            getInputs();
-
-            //upload to firestore
-            db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
-                    .add(bg)
-                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "added new record");
-                                startActivity(new Intent(AddRecordActivity.this, MainActivity.class));
-                            } else {
-                                Log.d(TAG, task.getException().getMessage());
-                                Toast.makeText(AddRecordActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            // get current inputs and check if valid
+            BloodGlucose bloodGlucose = getInputs();
+            if (bloodGlucose.checkInput() == true) {
+                //upload to firestore
+                db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
+                        .add(bloodGlucose)
+                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "added new record");
+                                    startActivity(new Intent(AddRecordActivity.this, MainActivity.class));
+                                } else {
+                                    Log.d(TAG, task.getException().getMessage());
+                                }
+                                Toast.makeText(AddRecordActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        }
-                    });
-            return true;
-        }
+                        });
+                return true;
+                } else {
+                    //if user has not enter a valid glucose level and try to save, this warning will pop up
+                    Toast.makeText(AddRecordActivity.this, R.string.save_warning,Toast.LENGTH_SHORT).show();
+                }
+            }
         return super.onOptionsItemSelected(item);
     }
 
@@ -154,6 +159,7 @@ public class AddRecordActivity extends AppCompatActivity {
         bloodGlucoseLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                bloodGlucoseLevel.setText("");
                 bgLevel = Double.parseDouble(bloodGlucoseLevel.getText().toString());
 
                 Drawable red_bg = getResources().getDrawable(R.drawable.drop_red);
@@ -163,13 +169,20 @@ public class AddRecordActivity extends AppCompatActivity {
                 Drawable yellow_bg = getResources().getDrawable(R.drawable.drop_yellow);
                 Drawable yellow_bt = getResources().getDrawable(R.drawable.glucose_drop_button_yellow);
 
-                if (bgLevel <= 4 || bgLevel >= 13) {
+                if (bgLevel <= 0) {
+                    // not a valid input, show warning
+                    bloodGlucoseLevel.getText().clear();
+                    Toast.makeText(AddRecordActivity.this, R.string.valid_bg_level_warning, Toast.LENGTH_SHORT).show();
+                } else if (bgLevel <= 4 || bgLevel >= 13) {
+                    // blood glucose level is not in a healthy range, show red alert
                     bloodGlucoseLevel.setBackground(red_bt);
                     bloodGlucoseBG.setBackground(red_bg);
                 } else if (bgLevel <= 7) {
+                    // show green for healthy glucose level
                     bloodGlucoseLevel.setBackground(green_bt);
                     bloodGlucoseBG.setBackground(green_bg);
                 } else if (bgLevel <= 10) {
+                    // show yellow for just above healthy range
                     bloodGlucoseLevel.setBackground(yellow_bt);
                     bloodGlucoseBG.setBackground(yellow_bg);
                 }
@@ -286,7 +299,7 @@ public class AddRecordActivity extends AppCompatActivity {
     }
 
     private BloodGlucose getInputs() {
-        bg = new BloodGlucose();
+        BloodGlucose bg = new BloodGlucose();
         bg.setBloodGlucose(Double.parseDouble(bloodGlucoseLevel.getText().toString()));
         bg.setInputDate(dateString);
         bg.setInputTime(timeString);
