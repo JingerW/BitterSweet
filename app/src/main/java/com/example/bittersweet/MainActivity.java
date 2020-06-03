@@ -46,7 +46,7 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
-public class MainActivity<_> extends DrawerActivity implements View.OnClickListener{
+public class MainActivity extends DrawerActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivityDebug";
     private static final String COLLECTION_NAME = "User";

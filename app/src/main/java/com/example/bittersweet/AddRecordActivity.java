@@ -1,12 +1,14 @@
 package com.example.bittersweet;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -15,13 +17,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,7 +53,7 @@ public class AddRecordActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    private EditText bloodGlucoseLevel;
+    private Button bloodGlucoseLevel;
     private RelativeLayout bloodGlucoseBG;
     private double bgLevel;
 
@@ -73,6 +78,7 @@ public class AddRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_record);
 
         setFireStore();
@@ -153,39 +159,76 @@ public class AddRecordActivity extends AppCompatActivity {
     }
 
     private void setBloodGlucoseLevel() {
-        bloodGlucoseLevel = (EditText) findViewById(R.id.blood_glucose);
+        bloodGlucoseLevel = (Button) findViewById(R.id.blood_glucose);
         bloodGlucoseBG = (RelativeLayout) findViewById(R.id.blood_glucose_bg);
 
+        // get layout inflater
+        final LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        // set onclick listener onto glucose level number picker
         bloodGlucoseLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bloodGlucoseLevel.setText("");
-                bgLevel = Double.parseDouble(bloodGlucoseLevel.getText().toString());
 
-                Drawable red_bg = getResources().getDrawable(R.drawable.drop_red);
-                Drawable red_bt = getResources().getDrawable(R.drawable.glucose_drop_button_red);
-                Drawable green_bg = getResources().getDrawable(R.drawable.drop_green);
-                Drawable green_bt = getResources().getDrawable(R.drawable.glucose_drop_button_green);
-                Drawable yellow_bg = getResources().getDrawable(R.drawable.drop_yellow);
-                Drawable yellow_bt = getResources().getDrawable(R.drawable.glucose_drop_button_yellow);
+                // set view for the number picker
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(AddRecordActivity.this);
+                final View picker_view = inflater.from(getApplicationContext()).inflate(R.layout.glucose_level_number_picker,null);
+                dialog.setView(picker_view);
 
-                if (bgLevel <= 0) {
-                    // not a valid input, show warning
-                    bloodGlucoseLevel.getText().clear();
-                    Toast.makeText(AddRecordActivity.this, R.string.valid_bg_level_warning, Toast.LENGTH_SHORT).show();
-                } else if (bgLevel <= 4 || bgLevel >= 13) {
-                    // blood glucose level is not in a healthy range, show red alert
-                    bloodGlucoseLevel.setBackground(red_bt);
-                    bloodGlucoseBG.setBackground(red_bg);
-                } else if (bgLevel <= 7) {
-                    // show green for healthy glucose level
-                    bloodGlucoseLevel.setBackground(green_bt);
-                    bloodGlucoseBG.setBackground(green_bg);
-                } else if (bgLevel <= 10) {
-                    // show yellow for just above healthy range
-                    bloodGlucoseLevel.setBackground(yellow_bt);
-                    bloodGlucoseBG.setBackground(yellow_bg);
-                }
+                // set up min and max number for two number pickers
+                final NumberPicker numberpicker1 = (NumberPicker) picker_view.findViewById(R.id.number_before_decimal);
+                numberpicker1.setMinValue(0);
+                numberpicker1.setMaxValue(99);
+                numberpicker1.setWrapSelectorWheel(false);
+                final NumberPicker numberpicker2 = (NumberPicker) picker_view.findViewById(R.id.number_after_decimal);
+                numberpicker2.setMinValue(0);
+                numberpicker2.setMaxValue(9);
+                numberpicker2.setWrapSelectorWheel(false);
+
+                // set cancel and done button for the alert dialog
+                dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String input = numberpicker1.getValue()+"."+numberpicker2.getValue();
+                        bloodGlucoseLevel.setText(input);
+
+                        // change background colour corresponding with the input glucose level
+                        bgLevel = Double.parseDouble(input);
+
+                        Drawable red_bg = getResources().getDrawable(R.drawable.drop_red);
+                        Drawable red_bt = getResources().getDrawable(R.drawable.glucose_drop_button_red);
+                        Drawable green_bg = getResources().getDrawable(R.drawable.drop_green);
+                        Drawable green_bt = getResources().getDrawable(R.drawable.glucose_drop_button_green);
+                        Drawable yellow_bg = getResources().getDrawable(R.drawable.drop_yellow);
+                        Drawable yellow_bt = getResources().getDrawable(R.drawable.glucose_drop_button_yellow);
+
+                        if (bgLevel <= 0) {
+                            // not a valid input, show warning
+                            bloodGlucoseLevel.setText("");
+                            Toast.makeText(AddRecordActivity.this, R.string.valid_bg_level_warning, Toast.LENGTH_SHORT).show();
+                        } else if (bgLevel <= 4 || bgLevel >= 13) {
+                            // blood glucose level is not in a healthy range, show red alert
+                            bloodGlucoseLevel.setBackground(red_bt);
+                            bloodGlucoseBG.setBackground(red_bg);
+                        } else if (bgLevel <= 7) {
+                            // show green for healthy glucose level
+                            bloodGlucoseLevel.setBackground(green_bt);
+                            bloodGlucoseBG.setBackground(green_bg);
+                        } else if (bgLevel <= 10) {
+                            // show yellow for just above healthy range
+                            bloodGlucoseLevel.setBackground(yellow_bt);
+                            bloodGlucoseBG.setBackground(yellow_bg);
+                        }
+                        Log.d(TAG, "Selected number "+input);
+                        dialogInterface.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
     }

@@ -16,32 +16,24 @@
     <!-- blood glucose input -->
     <RelativeLayout
         android:id="@+id/blood_glucose_bg"
-        android:layout_width="260dp"
-        android:layout_height="250dp"
+        android:layout_width="220dp"
+        android:layout_height="320dp"
         android:background="@drawable/drop_green"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <EditText
+        <Button
             android:id="@+id/blood_glucose"
             android:layout_width="140dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="170dp"
             android:background="@drawable/glucose_drop_button_green"
             android:gravity="center"
-            android:textSize="14sp"
             android:textAlignment="center"
-            android:inputType="numberDecimal"
-            android:imeOptions="actionDone"
+            android:textSize="35dp"
             android:hint="@string/glucose_hint"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/blood_glucose"
-            android:layout_centerHorizontal="true"
-            android:hint="@string/glucose_unit"/>
 
     </RelativeLayout>
 
@@ -53,7 +45,7 @@
         android:layout_below="@id/blood_glucose_bg"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:padding="10dp"
         android:background="@drawable/green_white_bar">
 

@@ -63,7 +63,7 @@
     <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
     //add record activity
-    <string name="glucose_hint">Click here to enter</string>
+    <string name="glucose_hint">0.0</string>
     <string name="glucose_unit">mmog/L</string>
     <string name="breakfast">Breakfast</string>
     <string name="lunch">Lunch</string>
