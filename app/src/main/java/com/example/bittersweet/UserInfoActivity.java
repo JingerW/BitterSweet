@@ -119,16 +119,6 @@ public class UserInfoActivity extends AppCompatActivity implements YearPickerDia
         adaptor.setDropDownViewResource(R.layout.spinner_view);
         diabetesType.setAdapter(adaptor);
         diabetesType.setSelection(0);
-//        diabetesType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                dtype = adapterView.getItemAtPosition(i).toString();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//            }
-//        });
     }
 
     private void createYearOfDiagnosePicker() {

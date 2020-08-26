@@ -31,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -52,13 +53,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     private static final String COLLECTION_NAME = "User";
     private static final String SUB_COLLECTION_NAME = "BloodGlucoseRecord";
 
-    private Button addUserinfo;
-    private Button deleteUserinfo;
-    private Button updateUserinfo;
-
     private Button addRecord;
-    private Button getRecord;
-    private Button createRecords;
 
     private LineChartView helloChart;
     private ArrayList<BloodGlucose> records;
@@ -86,13 +81,21 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     }
 
     private void setFireStore() {
+        // set up fire store
         firebaseAuth = FirebaseAuth.getInstance();
+        // get current user
         currentUser = firebaseAuth.getCurrentUser();
+        // get this user's database
         db = FirebaseFirestore.getInstance();
+        // get user id
         uid = currentUser.getUid();
+
+        // create new blood glucose level record list
         records = new ArrayList<BloodGlucose>();
+        String dateString = getCurrentDateString();
+        // fetch data from fire store and then store into an array list
         db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
-                .whereEqualTo("inputDate", "Sep 04, 2019")
+                .whereEqualTo("inputDate", dateString)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -118,6 +121,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     }
 
     private void setHelloLineChart(ArrayList<BloodGlucose> records) {
+        // find chart layer by id
         helloChart = (LineChartView) findViewById(R.id.main_display_chart);
 
         // x axis labels
@@ -229,132 +233,26 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         addRecord = (Button) findViewById(R.id.add_record);
         addRecord.setOnClickListener(this);
 
-        createRecords = (Button) findViewById(R.id.create_records);
-        createRecords.setOnClickListener(this);
     }
 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_record:
                 startActivity(new Intent(MainActivity.this, AddRecordActivity.class));
-            case R.id.get_record:
-                //td
-            case R.id.create_records:
-                createTestData();
         }
     }
 
-    private void createTestData() {
-
+    private String getCurrentDateString() {
+        // get current day, month and year from Calendar
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        final String[] months = getResources().getStringArray(R.array.months);
+        // Store them into an array list and return it
+        String dateString = String.format(months[month] + " %02d, %d", day, year);
+        Log.d(TAG, "Current date: "+dateString);
+        return dateString;
     }
-
-
-//    private void setGetRecord() {
-//        getRecord = (Button) findViewById(R.id.get_record);
-//        getRecord.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()){
-//                                    records = new ArrayList<BloodGlucose>();
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        Log.d(TAG, document.getId() + " => " + document.getData());
-//                                        records.add(document.toObject(BloodGlucose.class));
-//                                    }
-//                                } else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//
-//
-//    }
-
-
-//    private void addUserinfo() {
-//        addUserinfo = (Button) findViewById(R.id.add_userinfo);
-//        addUserinfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uid = currentUser.getUid();
-//                Log.d(TAG, uid);
-//
-//                User userinfo = new User();
-//                Log.d(TAG, userinfo.showUser());
-//
-//                db.collection(COLLECTION_NAME).document(uid)
-//                        .set(userinfo)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG,"\nadded");
-//                                }
-//                                else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//
-//    }
-//
-//    private void deleteUserinfo() {
-//        deleteUserinfo = (Button) findViewById(R.id.delete_userinfo);
-//        deleteUserinfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uid = currentUser.getUid();
-//                Log.d(TAG, uid);
-//
-//                db.collection(COLLECTION_NAME).document(uid)
-//                        .delete()
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG,"\ndeleted");
-//                                }
-//                                else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//    }
-//
-//    private void updateUserinfo(final Map<String, Object> updateinfo) {
-//        updateUserinfo = (Button) findViewById(R.id.update_userinfo);
-//        updateUserinfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uid = currentUser.getUid();
-//                Log.d(TAG, uid);
-//
-//                db.collection(COLLECTION_NAME).document(uid)
-//                        .update(updateinfo)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG,"\nupdated");
-//                                }
-//                                else {
-//                                    Log.d(TAG, task.getException().getMessage());
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//    }
 
 }

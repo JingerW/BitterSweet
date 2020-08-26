@@ -119,6 +119,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
             case R.id.nav_diary:
+                startActivity(new Intent(getApplicationContext(), DiaryActivity.class));
                 break;
             case R.id.nav_analysis:
                 break;

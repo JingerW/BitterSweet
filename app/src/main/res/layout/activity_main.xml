@@ -1,85 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@color/lightgreen">
 
-
-
-    <!--<Button-->
-        <!--android:id="@+id/add_userinfo"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="add user to database"-->
-        <!--android:layout_marginTop="?attr/actionBarSize"-->
-        <!--android:background="@color/white"-->
-        <!--android:layout_centerHorizontal="true" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/delete_userinfo"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/add_userinfo"-->
-        <!--android:text="delete user from database"-->
-        <!--android:background="@color/white"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_centerVertical="true"/>-->
-
-    <!--<Button-->
-        <!--android:id="@+id/update_userinfo"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/delete_userinfo"-->
-        <!--android:text="update user to database"-->
-        <!--android:background="@color/white"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_centerVertical="true"/>-->
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent_Translucent" />
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/main_display_chart"
         android:layout_width="fill_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="5dp" />
+        android:layout_below="@id/toolbar_main"/>
 
-    <Button
-        android:id="@+id/get_record"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/button_group_records"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:text="get record"
-        android:padding="10dp"
-        android:layout_margin="20dp"
-
-        android:layout_below="@id/main_display_chart"/>
-
-    <Button
-        android:id="@+id/add_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_records"
-        android:background="@color/white"
-        android:padding="10dp"
         android:layout_below="@id/main_display_chart"
-        android:layout_toEndOf="@id/get_record"
-        android:layout_margin="20dp"/>
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/create_records"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:text="@string/create_records"
-        android:padding="10dp"
-        android:layout_margin="20dp"
-        android:layout_toEndOf="@id/add_record"
-        android:layout_below="@id/main_display_chart"/>
+        <Button
+            android:id="@+id/diary"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:text="@string/diary"
+            android:background="@color/white"
+            android:layout_toStartOf="@id/add_record" />
 
+        <Button
+            android:id="@+id/add_record"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:text="@string/add_records"
+            android:background="@color/white"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/other_records"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="@string/other_records"
+            android:layout_toEndOf="@id/add_record"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

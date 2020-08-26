@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AddRecordActivity"></activity>
+        <activity android:name=".DiaryActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".DrawerActivity" />
         <activity android:name=".UserInfoActivity" />

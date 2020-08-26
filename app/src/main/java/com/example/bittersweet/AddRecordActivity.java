@@ -136,11 +136,11 @@ public class AddRecordActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "added new record");
+                                    Toast.makeText(AddRecordActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(AddRecordActivity.this, MainActivity.class));
                                 } else {
                                     Log.d(TAG, task.getException().getMessage());
                                 }
-                                Toast.makeText(AddRecordActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;
