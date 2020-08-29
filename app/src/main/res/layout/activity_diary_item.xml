@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="10dp"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="50dp">
 
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="40dp"
-        android:id="@+id/reocrd_date"
-        android:text="Date"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="40dp"
-        android:id="@+id/reocrd_time"
+        android:layout_height="match_parent"
+        android:id="@+id/record_time"
+        android:gravity="center"
         android:text="Time"/>
-    <TextView
+    <RelativeLayout
+        android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_weight="3"
-        android:layout_height="40dp"
-        android:id="@+id/reocrd_glucose"
-        android:text="Blood Glucose"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="40dp"
-        android:id="@+id/reocrd_label"
-        android:text="Dinner After Meal"/>
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/record_glucose_alert"
+            android:layout_centerVertical="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_toStartOf="@+id/record_glucose"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/record_glucose"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Blood Glucose"/>
+    </RelativeLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/record_label_meal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/record_label_meal_text"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:gravity="center"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/record_label_mealtime"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/record_label_mealtime_text"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:gravity="center"
+            android:textSize="12sp"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,26 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".DiaryActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent_Translucent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="TEST"
-        android:background="@color/white"
-        android:id="@+id/test_diary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/diary_recyclerview"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:paddingTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingVertical="10dp"
-        android:layout_below="@id/toolbar_main">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 

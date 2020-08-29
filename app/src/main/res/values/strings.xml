@@ -5,106 +5,146 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     //login
-        <string name="hint_email">Email address</string>
-        <string name="hint_password">Password</string>
-        <string name="action_login">Login</string>
-        <string name="login_signup">Do not have an account? Sign up here!</string>
-        <string name="login_remember">Remember me</string>
+    <string name="hint_email">Email address</string>
+    <string name="hint_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="login_signup">Do not have an account? Sign up here!</string>
+    <string name="login_remember">Remember me</string>
 
     //sign up
-        <string name="signup_username">Please create your username</string>
-        <string name="signup_email">Please enter your email address</string>
-        <string name="signup_password">Please create your password</string>
-        <string name="signup_password_confirm">Please confirm your password</string>
-        <string name="action_signup">Sign up</string>
-        <string name="signup_login">Already have an account? Login here!</string>
-        <string name="signup_terms">By creating an account, you agree to our terms</string>
+    <string name="signup_username">Please create your username</string>
+    <string name="signup_email">Please enter your email address</string>
+    <string name="signup_password">Please create your password</string>
+    <string name="signup_password_confirm">Please confirm your password</string>
+    <string name="action_signup">Sign up</string>
+    <string name="signup_login">Already have an account? Login here!</string>
+    <string name="signup_terms">By creating an account, you agree to our terms</string>
     <string name="sweetener">sweetener</string>
 
     //user info
-        <string name="userinfo_0">Thank you so much for using BitterSweet!</string>
-        <string name="userinfo_1">Life may be bitter \n but together we can make it sweet!</string>
-        <string name="date_of_birth">Date of Birth</string>
-        <string name="date_of_birth_input">Please enter your date of birth</string>
-        <string name="gender">Gender</string>
-        <string name="gender_boy">Boy</string>
-        <string name="gender_girl">Girl</string>
-        <string name="diabetes_type">Diabetes type</string>
-        <string name="year_of_dia">Year of Diagnose</string>
-        <string name="height">Height</string>
-        <string name="weight">Weight</string>
-        <string name="height_unit">cm</string>
-        <string name="weight_unit">kg</string>
+    <string name="userinfo_0">Thank you so much for using BitterSweet!</string>
+    <string name="userinfo_1">Life may be bitter \n but together we can make it sweet!</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="date_of_birth_input">Please enter your date of birth</string>
+    <string name="gender">Gender</string>
+    <string name="gender_boy">Boy</string>
+    <string name="gender_girl">Girl</string>
+    <string name="diabetes_type">Diabetes type</string>
+    <string name="year_of_dia">Year of Diagnose</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="height_unit">cm</string>
+    <string name="weight_unit">kg</string>
 
-        <string-array name="diabetes_type">
-            <item>Type 1</item>
-            <item>Type 2</item>
-            <item>Gestational diabetes</item>
-            <item>Other</item>
-        </string-array>
+    <string-array name="diabetes_type">
+        <item>Type 1</item>
+        <item>Type 2</item>
+        <item>Gestational diabetes</item>
+        <item>Other</item>
+    </string-array>
 
     //drawer menu
-        <string name="drawer_home">Home</string>
-        <string name="glucose_diary">Glucose Diary</string>
-        <string name="health_analysis">Health Analysis</string>
-        <string name="more_records">More Records</string>
-        <string name="export_reports">Export Reports</string>
-        <string name="settings">Settings</string>
-        <string name="logout">Logout</string>
-        <string name="logout_alert">Log out this account?</string>
+    <string name="drawer_home">Home</string>
+    <string name="glucose_diary">Diary</string>
+    <string name="health_analysis">Statistics</string>
+    <string name="more_records">More Records</string>
+    <string name="export_reports">Export Reports</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="logout_alert">Log out this account?</string>
 
     //Main activity
-        <string name="add_records">Add Record</string>
-        <string name="delete_account">Delete Account</string>
-        <string name="other_records">Other Records</string>
-        <string name="diary">Diary</string>
-        <string name="chart_year">Year</string>
-        <string name="chart_month">Month</string>
-        <string name="chart_week">Week</string>
-        <string name="chart_day">Day</string>
+    <string name="add_records">Add Record</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="other_records">Other Records</string>
+    <string name="diary">Diary</string>
+    <string name="chart_year">Year</string>
+    <string name="chart_month">Month</string>
+    <string name="chart_week">Week</string>
+    <string name="chart_day">Day</string>
 
     //settings
-        <string name="delete_title">Are you sure?</string>
-        <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
+    <string name="delete_title">Are you sure?</string>
+    <string name="delete_message">After you delete an account, it is permanently deleted from the system. Accounts cannot be recovered.</string>
 
     //add record activity
-        <string name="glucose_hint">0.0</string>
-        <string name="glucose_unit">mmog/L</string>
-        <string name="breakfast">Breakfast</string>
-        <string name="lunch">Lunch</string>
-        <string name="dinner">Dinner</string>
-        <string name="before_meal">Before meal</string>
-        <string name="after_meal">After meal</string>
+    <string name="glucose_hint">0.0</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="before_meal">Before meal</string>
+    <string name="after_meal">After meal</string>
+    <string name="bp_and_hr">Blood Pressure and Heart Rate</string>
+    <string name="blood_pressure">Blood Pressure :</string>
+    <string name="bp_upper">upper</string>
+    <string name="bp_lower">lower</string>
+    <string name="hear_rate">Heart Rate :</string>
+    <string name="medication">Medication</string>
+    <string name="insulin">Insulin :</string>
+    <string name="insulin_type">Type :</string>
+    <string name="other_med">Other medication :</string>
+    <string name="food">Food</string>
+    <string name="exercise">Exercise</string>
+    <string name="running">Running</string>
+    <string name="swimming">Swimming</string>
+    <string name="biking">Biking</string>
+    <string name="fitness">Fitness</string>
+    <string name="exercise_time">Exercise Time :</string>
+    <string name="other_exercises">Other Exercises :</string>
+    <string name="note">Note</string>
 
-        <string name="valid_bg_level_warning">Please enter a valid number</string>
-        <string name="save_warning">Please enter your blood glucose level</string>
+    <string name="valid_bg_level_warning">Please enter a valid number</string>
+    <string name="save_warning">Please enter your blood glucose level</string>
+    <string name="ketone_note">Please check if you have ketone :</string>
 
-        //months
-        <string-array name="months">
-            <item>Jan</item>
-            <item>Feb</item>
-            <item>Mar</item>
-            <item>Apr</item>
-            <item>May</item>
-            <item>Jun</item>
-            <item>Jul</item>
-            <item>Aug</item>
-            <item>Sep</item>
-            <item>Oct</item>
-            <item>Nov</item>
-            <item>Dec</item>
-        </string-array>
+    //months
+    <string-array name="months">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
 
-        //hour
-        <string-array name="hours">
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-            <item>00:00</item>
-        </string-array>
+    //hour
+    <string-array name="hours">
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+        <item>00:00</item>
+    </string-array>
+
+    //insulin type
+    <string-array name="insulin_type_list">
+        <item>rapid</item>
+        <item>short</item>
+        <item>intermediate</item>
+        <item>mixed</item>
+        <item>long</item>
+    </string-array>
+
+    // diary activity
+    <string name="diary_bglucose_checkbox">Blood Glucose</string>
+    <string name="diary_bpressure_checkbox">Blood Pressure</string>
+    <string name="diary_medication_checkbox">Medication</string>
+    <string name="diary_activity_checkbox">Activity</string>
+
+    // units
+    <string name="blood_glucose_unit">mg/dL</string>
+    <string name="blood_pressure_unit">mmHg</string>
+    <string name="insulin_unit">units</string>
+    <string name="heart_rate_unit">BPM</string>
+    <string name="ketone_unit">mmol/L</string>
 
 </resources>

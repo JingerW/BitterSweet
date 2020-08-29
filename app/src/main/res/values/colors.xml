@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
-    <color name="green">#cbe8ba</color>
-    <color name="lightgreen">#dfedd6</color>
+    <!--<color name="lightgreen">#dfedd6</color>-->
     <color name="black">#000000</color>
-    <color name="grey">#c0c0c0</color>
-    <color name="drop_green">#C5FFA3</color>
+    <color name="transparent">#00000000</color>
+
     <color name="light_red">#FFDCDC</color>
     <color name="light_yellow">#FDFFDC</color>
     <color name="light_blue">#DCF5FF</color>
+
+    // color palette
+    <color name="green_grey">#7A918D</color>
+    <color name="green_grey_light">#93B1A7</color>
+    <color name="lightgreen">#DBFEB8</color>
+    <color name="green">#cbe8ba</color>
+    <color name="brightgreen">#C5EDAC</color>
+    <color name="darkgreen">#99C2A2</color>
+    <color name="red">#ff928b</color>
+    <color name="grey">#c0c0c0</color>
+    <color name="darkgrey">#6c757d</color>
 </resources>

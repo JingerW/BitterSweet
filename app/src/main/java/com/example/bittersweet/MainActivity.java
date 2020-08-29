@@ -4,38 +4,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.print.PageRange;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
 
-import com.example.bittersweet.Model.BloodGlucose;
-import com.example.bittersweet.Model.User;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.example.bittersweet.Model.Record;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
-import com.example.bittersweet.Model.User;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -56,7 +43,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     private Button addRecord;
 
     private LineChartView helloChart;
-    private ArrayList<BloodGlucose> records;
+    private ArrayList<Record> records;
     private ArrayList<Float> yAxisData;
     private ArrayList<Float> xAxisData;
     private List<AxisValue> xaxisLabel;
@@ -91,7 +78,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         uid = currentUser.getUid();
 
         // create new blood glucose level record list
-        records = new ArrayList<BloodGlucose>();
+        records = new ArrayList<Record>();
         String dateString = getCurrentDateString();
         // fetch data from fire store and then store into an array list
         db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
@@ -103,7 +90,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
                         if (task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                BloodGlucose record = document.toObject(BloodGlucose.class);
+                                Record record = document.toObject(Record.class);
                                 records.add(record);
                                 record.showBloodGlucose(TAG);
                                 Log.d(TAG, "record size: "+records.size());
@@ -120,7 +107,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
                 });
     }
 
-    private void setHelloLineChart(ArrayList<BloodGlucose> records) {
+    private void setHelloLineChart(ArrayList<Record> records) {
         // find chart layer by id
         helloChart = (LineChartView) findViewById(R.id.main_display_chart);
 
@@ -160,10 +147,10 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         yAxisData = new ArrayList();
         xAxisData = new ArrayList();
         if (records.size()>0) {
-            for (BloodGlucose record : records) {
+            for (Record record : records) {
                 double bg = record.getBloodGlucose();
-                String date = record.getInputDate();
-                String time = record.getInputTime();
+                String date = record.getDate();
+                String time = record.getTime();
                 String[] t = time.split(":");
                 float h = Float.parseFloat(t[0]);
                 float m = Float.parseFloat(t[1]);

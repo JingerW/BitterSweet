@@ -1,4 +1,4 @@
-package com.example.bittersweet;
+package com.example.bittersweet.Helper;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.bittersweet.R;
 
 import java.util.Calendar;
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserInfoActivity"
-    android:background="@color/lightgreen">
+    android:background="@color/darkgreen">
 
     <TextView
         android:id="@+id/userinfo_heading2"
@@ -246,7 +246,7 @@
             android:layout_below="@id/hw_group"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@color/lightgreen"
+            android:background="@color/green"
             android:text="Save"/>
 
     </RelativeLayout>
