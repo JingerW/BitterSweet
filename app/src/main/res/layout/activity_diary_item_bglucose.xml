@@ -4,7 +4,16 @@
     android:paddingTop="10dp"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true">
+
+    <CheckBox
+        android:id="@+id/select_button_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="0dp"
@@ -32,6 +41,12 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Blood Glucose"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/blood_glucose_unit"
+            android:gravity="center"
+            android:layout_toEndOf="@id/record_glucose"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -71,5 +86,12 @@
             android:gravity="center"
             android:textSize="12sp"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/record_trash_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/trash"/>
 
 </LinearLayout>

@@ -15,7 +15,7 @@ public class Record implements Comparable<Record>{
 
     @NonNull
     private static final String TAG = "BloodGlucoseModel";
-    private double bloodGlucose;
+    private double record;
     private String date, time;
     private ArrayList<String> labels     = new ArrayList<>();
     private Ketone ketone;
@@ -25,11 +25,13 @@ public class Record implements Comparable<Record>{
     private String food;
     private String notes;
 
+    private String documentID;
+
     public Record() {
     }
 
-    public Record(double bloodGlucose, String date, String time, ArrayList<String> labels, Ketone ketone, Medication medication, BpHr bpHr, Exercise exercise, String food, String notes) {
-        this.bloodGlucose = bloodGlucose;
+    public Record(double record, String date, String time, ArrayList<String> labels, Ketone ketone, Medication medication, BpHr bpHr, Exercise exercise, String food, String notes) {
+        this.record = record;
         this.date = date;
         this.time = time;
         this.labels = labels;
@@ -41,8 +43,8 @@ public class Record implements Comparable<Record>{
         this.notes = notes;
     }
 
-    public Record(double bloodGlucose, String date, String time, ArrayList<String> labels, String notes) {
-        this.bloodGlucose = bloodGlucose;
+    public Record(double record, String date, String time, ArrayList<String> labels, String notes) {
+        this.record = record;
         this.date = date;
         this.time = time;
         this.labels = labels;
@@ -50,7 +52,7 @@ public class Record implements Comparable<Record>{
     }
 
     public double getBloodGlucose() {
-        return bloodGlucose;
+        return record;
     }
     public String getDate() {
         return date;
@@ -76,7 +78,7 @@ public class Record implements Comparable<Record>{
         return notes;
     }
 
-    public void setBloodGlucose(double bloodGlucose) { this.bloodGlucose = bloodGlucose; }
+    public void setBloodGlucose(double record) { this.record = record; }
     public void setDate(String date) {
         this.date = date;
     }
@@ -95,27 +97,39 @@ public class Record implements Comparable<Record>{
         this.notes = notes;
     }
 
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
     public boolean checkInput() {
-        if (bloodGlucose == 0 || date == null || time == null) {
+        if (record == 0 || date == null || time == null) {
             return false;
         }
         else {return true;}
     }
 
     public void showBloodGlucose(String TAG) {
-        Log.d(TAG, bloodGlucose+"\n"+date+"  , "+time+"\n"+labels.size()+"\n"+notes);
+        Log.d(TAG, record+"\n"+date+"  , "+time+"\n"+labels.size()+"\n"+notes);
     }
 
-    // convert String Date into Date Date and then sort by date within an arraylist
+    /**
+     * convert String Date into Date Date and then sort by date within an arraylist
+     * @param record
+     * @return int
+     */
     @Override
-    public int compareTo(Record bloodGlucose) {
+    public int compareTo(Record record) {
         int result = 0;
         // check null exception
-        if (getDate() != null && bloodGlucose.getDate() != null) {
+        if (getDate() != null && record.getDate() != null) {
             DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.UK);
             try{ // parse both date into Date format for comparison
                 Date date1 = dateFormat.parse(getDate());
-                Date date2 = dateFormat.parse(bloodGlucose.getDate());
+                Date date2 = dateFormat.parse(record.getDate());
                 result = date1.compareTo(date2);
             } catch (ParseException pe) {
                 pe.printStackTrace();
@@ -128,4 +142,5 @@ public class Record implements Comparable<Record>{
             return result;
         }
     }
+
 }

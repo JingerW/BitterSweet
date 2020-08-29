@@ -1,6 +1,7 @@
 package com.example.bittersweet.Adapter;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import com.example.bittersweet.R;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.*;
 
-public class DiarySection extends Section {
+public class DiarySection extends Section{
 
     private String header;
     private List<Record> itemList;
@@ -22,7 +23,7 @@ public class DiarySection extends Section {
     // call constructor with layout resources for this Section header and items
     public DiarySection(String header, List<Record> itemList) {
         super(SectionParameters.builder()
-                .itemResourceId(R.layout.activity_diary_item)
+                .itemResourceId(R.layout.activity_diary_item_bglucose)
                 .headerResourceId(R.layout.activity_diary_header)
                 .build());
         this.header   = header;
@@ -70,6 +71,12 @@ public class DiarySection extends Section {
         else if (labels.get(1).equals("After meal"))  {
             itemHolder.mealTime.setImageResource(R.drawable.after_meal);
             itemHolder.mealTimeText.setText(labels.get(1));}
+
+        itemHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
     }
 
     @Override
@@ -83,18 +90,25 @@ public class DiarySection extends Section {
         headerViewHolder.header.setText(header);
     }
 
+    /**
+     * ItemViewHolder and HeaderViewHolder
+     */
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView time, bloodGlucose, mealText, mealTimeText;
         private final ImageView meal, mealTime, alert;
+        private final Button deleteButton;
+
         public ItemViewHolder(View itemView) {
             super(itemView);
-            time         = (TextView)  itemView.findViewById(R.id.record_time);
-            bloodGlucose = (TextView)  itemView.findViewById(R.id.record_glucose);
-            alert        = (ImageView) itemView.findViewById(R.id.record_glucose_alert);
-            meal         = (ImageView) itemView.findViewById(R.id.record_label_meal);
-            mealText     = (TextView)  itemView.findViewById(R.id.record_label_meal_text);
-            mealTime     = (ImageView) itemView.findViewById(R.id.record_label_mealtime);
-            mealTimeText = (TextView)  itemView.findViewById(R.id.record_label_mealtime_text);
+            time = (TextView) itemView.findViewById(R.id.record_time);
+            bloodGlucose = (TextView) itemView.findViewById(R.id.record_glucose);
+            alert = (ImageView) itemView.findViewById(R.id.record_glucose_alert);
+            meal = (ImageView) itemView.findViewById(R.id.record_label_meal);
+            mealText = (TextView) itemView.findViewById(R.id.record_label_meal_text);
+            mealTime = (ImageView) itemView.findViewById(R.id.record_label_mealtime);
+            mealTimeText = (TextView) itemView.findViewById(R.id.record_label_mealtime_text);
+
+            deleteButton = (Button) itemView.findViewById(R.id.record_trash_button);
         }
     }
 
@@ -105,4 +119,5 @@ public class DiarySection extends Section {
             header = (TextView) headerView.findViewById(R.id.date_header);
         }
     }
+
 }

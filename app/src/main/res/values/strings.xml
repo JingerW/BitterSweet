@@ -134,6 +134,15 @@
         <item>long</item>
     </string-array>
 
+    //sort type
+    <string-array name="sort_type_list">
+        <item>All Records</item>
+        <item>Medication</item>
+        <item>Bp and Hr</item>
+        <item>Exercise</item>
+        <item>Other Notes</item>
+    </string-array>
+
     // diary activity
     <string name="diary_bglucose_checkbox">Blood Glucose</string>
     <string name="diary_bpressure_checkbox">Blood Pressure</string>

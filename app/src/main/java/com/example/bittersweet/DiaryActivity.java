@@ -1,12 +1,22 @@
 package com.example.bittersweet;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +34,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class DiaryActivity extends DrawerActivity{
+public class DiaryActivity extends DrawerActivity implements View.OnClickListener {
 
     @NonNull
     private static final String TAG = "DiaryActivityDebug";
@@ -43,8 +54,14 @@ public class DiaryActivity extends DrawerActivity{
     private String uid;
     private RecyclerView recyclerView;
     private SectionedRecyclerViewAdapter diaryAdapter;
-    private CheckBox bglucose, bpressure, medication, activity;
+    private Spinner sortByType;
+    private TextView sortByDate;
+    private CheckBox openDeleteButton;
     private String sortTypes;
+    private DatePickerDialog.OnDateSetListener mdateSetListener;
+
+
+    boolean isDeleteButtonPressed = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +76,10 @@ public class DiaryActivity extends DrawerActivity{
         recyclerView.setHasFixedSize(true);
 
         setFirebaseAuth();
+
+        setSortByType();
+
+        setSortByDate();
 
         getRecords();
     }
@@ -82,6 +103,43 @@ public class DiaryActivity extends DrawerActivity{
         return true;
     }
 
+    public void setSortByType() {
+        sortByType = (Spinner) findViewById(R.id.sort_by_type_spinner);
+        // set spinner
+        ArrayAdapter<CharSequence> sortTypeList = ArrayAdapter.createFromResource(this,
+                R.array.sort_type_list, R.layout.spinner_dropdown_item);
+        sortByType.setAdapter(sortTypeList);
+    }
+
+    public void setSortByDate() {
+        sortByDate = (TextView) findViewById(R.id.sort_by_date);
+        // set date picker
+        sortByDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dateDialog = new DatePickerDialog(DiaryActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mdateSetListener, year, month, day);
+                dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dateDialog.show();
+            }
+        });
+
+        mdateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                // i = year, i1 = month, i2 = day
+                Log.d(TAG, "DateSet: date: "+i+"/"+i1+"/"+i2);
+                sortByDate.setText(i2+"/"+i1+"/"+i);
+            }
+        };
+    }
+
+
     private void getRecords() {
         // create new blood glucose level record list
         records = new ArrayList<Record>();
@@ -94,7 +152,11 @@ public class DiaryActivity extends DrawerActivity{
                             // get all data and save them into array list records
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                // get document id for each record and store them in the model
+                                // easier for later deleting record
+                                String documentID = document.getId();
                                 Record record = document.toObject(Record.class);
+                                record.setDocumentID(documentID);
                                 records.add(record);
                                 // show info in logcat
                                 // record.showBloodGlucose(TAG);
@@ -103,6 +165,7 @@ public class DiaryActivity extends DrawerActivity{
                             // sort data and set adapter
                             diaryAdapter = new SectionedRecyclerViewAdapter();
                             diaryAdapter = setSectionAdapter(diaryAdapter, records);
+                            Log.d(TAG, "button select: "+isDeleteButtonPressed);
                             recyclerView.setAdapter(diaryAdapter);
                         }
                     }
@@ -125,7 +188,21 @@ public class DiaryActivity extends DrawerActivity{
                 Log.d(TAG, "sort data first date: "+date);
                 Log.d(TAG, "child: "+record.getTime());
             }
-            // other header record
+            // same header record
+            // if current record's date equals last record's date AND this is not last record
+            // add record to itemList and move to next one
+            else if (record.getDate().equals(date)) {
+                // save current record into child list
+                itemList.add(record);
+                Log.d(TAG, "child: "+record.getTime());
+                // if this record is the last record in the list, store it now
+                if (records.indexOf(record) == records.size()-1) {
+                    sectionAdapter.addSection(new DiarySection(date, itemList));
+                    Log.d(TAG, "Last child: "+record.getTime());
+                }
+            }
+            // different header record
+            // if current record's date does not equals to last record's date, create new section
             else if (!record.getDate().equals(date)) {
                 // first add previous section to the adapter
                 sectionAdapter.addSection(new DiarySection(date, itemList));
@@ -137,22 +214,19 @@ public class DiaryActivity extends DrawerActivity{
                 itemList  = new ArrayList<>();
                 itemList.add(record);
                 Log.d(TAG, "child: "+record.getTime());
-            }
-            // same header record
-            else if (record.getDate().equals(date)) {
-                // save current record into child list
-                itemList.add(record);
-                Log.d(TAG, "child: "+record.getTime());
-            }
-            // last record
-            else if (record == records.get(-1)) {
-                itemList.add(record);
-                // add section to the adapter
-                sectionAdapter.addSection(new DiarySection(date, itemList));
-                Log.d(TAG, "Last child: "+record.getTime());
-
+                // if this record is the last record in the list, store it now
+                if (records.indexOf(record) == records.size()-1) {
+                    sectionAdapter.addSection(new DiarySection(date, itemList));
+                    Log.d(TAG, "Last child: "+record.getTime());
+                }
             }
         }
         return sectionAdapter;
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
     }
 }
