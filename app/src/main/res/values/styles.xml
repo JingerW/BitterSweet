@@ -11,4 +11,24 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
     </style>
+
+    <style name="GreenOutlineSectionStyle">
+        <item name="android:background">@drawable/green_outline</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+    </style>
+
+    <style name="GreenBarTitleStyle">
+        <item name="android:background">@color/darkgreen</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+    </style>
+
+    <style name="ToggleButtonCustomStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textOn">""</item>
+        <item name="android:textOff">""</item>
+        <item name="android:button">@color/transparent</item>
+    </style>
 </resources>

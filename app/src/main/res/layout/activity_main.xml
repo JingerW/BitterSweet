@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/darkgreen">
+    android:background="@color/darkgreen"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
@@ -16,14 +17,12 @@
         android:id="@+id/main_display_chart"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/toolbar_main"/>
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:id="@+id/button_group_records"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_display_chart"
         android:layout_marginTop="10dp">
 
         <Button
@@ -31,28 +30,29 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_weight="1"
+            android:layout_marginStart="5dp"
             android:text="@string/diary"
-            android:background="@color/white"
-            android:layout_toStartOf="@id/add_record" />
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/add_record"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_weight="1"
+            android:layout_marginStart="5dp"
             android:text="@string/add_records"
-            android:background="@color/white"
-            android:layout_centerHorizontal="true" />
+            android:background="@color/white"/>
 
         <Button
             android:id="@+id/other_records"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:background="@color/white"
-            android:text="@string/other_records"
-            android:layout_toEndOf="@id/add_record"/>
+            android:text="@string/other_records"/>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

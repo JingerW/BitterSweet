@@ -9,10 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +26,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -40,10 +38,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.bittersweet.Helper.NumberInputFilter;
 import com.example.bittersweet.Model.BpHr;
 import com.example.bittersweet.Model.Exercise;
+import com.example.bittersweet.Model.Food;
 import com.example.bittersweet.Model.Ketone;
 import com.example.bittersweet.Model.Medication;
 import com.example.bittersweet.Model.Record;
@@ -56,8 +56,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class AddRecordActivity extends AppCompatActivity implements View.OnClickListener {
@@ -66,9 +70,11 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     private final static String COLLECTION_NAME = "User";
     private final static String SUB_COLLECTION_NAME = "BloodGlucoseRecord";
 
-    private String dateString, timeString, label1, label2;
+    private String dateString, timeString, dateTimeString;
+//    private String dateTimeFormat = "MMM DD, YYY MM:HH";
+    private String dateToStore;
+    private Date dateTime;
     private double bgLevel;
-    private boolean ketoneState;
     private ArrayList<String> labels;
 
     private Toolbar toolbar;
@@ -76,22 +82,21 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     private RelativeLayout bloodGlucoseBG;
     private LinearLayout ketoneLayout, ketoneInputLayout;
     private TextView time,date;
-    private RadioGroup labelMeal1, labelMeal2, ketoneToggle, exGroup;
+    private RadioGroup  ketoneToggle, exGroup, labelMeal1, labelMeal2;
     private RadioButton exRun, exSwim, exBike, exFitness;
     private Spinner insulinType;
     // number edit text
     private EditText ketoneInput, insulinInput, bpUpperInupt, bpLowerInput, heartRateInput, exTimeM, exTimeH;
     // long note edit text
-    private EditText note, otherMed, food, otherExercise;
+    private EditText note, otherMed, otherExercise;
+
+    private RadioButton breakfast, lunch, dinner, snack, beforeMeal, afterMeal;
+    private EditText foodDetail;
 
     private DatePickerDialog datePicker;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog timePicker;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
-
-    //expandable layouts
-    private TextView medicationELButton, bpHrELButton, foodELButton, acivityELButton, noteELButton;
-    private ExpandableLayout medicationEL, bpHrEL, foodEL, acivityEL, noteEL;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
@@ -107,21 +112,17 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
         setToolbar();
 
-        setExpandable();
-
         setBloodGlucoseLevel();
 
         setInputDateTime();
 
-        setInputLabel();
+        setInputFood();
 
         setInputMedication();
 
         setInputBPandHR();
 
         setInputExercise();
-
-        setInputFood();
 
         setInputNotes();
 
@@ -141,57 +142,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void setExpandable() {
-        // expandable buttons
-        medicationELButton = (TextView) findViewById(R.id.medication_title);
-        bpHrELButton       = (TextView) findViewById(R.id.bp_hr_title);
-        foodELButton       = (TextView) findViewById(R.id.food_title);
-        acivityELButton    = (TextView) findViewById(R.id.activity_title);
-        noteELButton       = (TextView) findViewById(R.id.blood_glucose_note_title);
-        // set listener
-        medicationELButton.setOnClickListener(this);
-        bpHrELButton.setOnClickListener(this);
-        foodELButton.setOnClickListener(this);
-        acivityELButton.setOnClickListener(this);
-        noteELButton.setOnClickListener(this);
-        // expandable layouts
-        medicationEL = (ExpandableLayout) findViewById(R.id.medication_expandable_layout);
-        bpHrEL       = (ExpandableLayout) findViewById(R.id.bp_hr_expandable_layout);
-        foodEL       = (ExpandableLayout) findViewById(R.id.food_expandable_layout);
-        acivityEL    = (ExpandableLayout) findViewById(R.id.activity_expandable_layout);
-        noteEL       = (ExpandableLayout) findViewById(R.id.note_expandable_layout);
-        // set listener
-        medicationEL.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-            @Override
-            public void onExpansionUpdate(float expansionFraction, int state) {
-                Log.d(TAG, "Medication layout State: "+state);
-            }
-        });
-        bpHrEL.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-            @Override
-            public void onExpansionUpdate(float expansionFraction, int state) {
-                Log.d(TAG, "Blood pressure and heart rate layout State: "+state);
-            }
-        });
-        foodEL.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-            @Override
-            public void onExpansionUpdate(float expansionFraction, int state) {
-                Log.d(TAG, "Food layout State: "+state);
-            }
-        });
-        acivityEL.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-            @Override
-            public void onExpansionUpdate(float expansionFraction, int state) {
-                Log.d(TAG, "Activity layout State: "+state);
-            }
-        });
-        noteEL.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-            @Override
-            public void onExpansionUpdate(float expansionFraction, int state) {
-                Log.d(TAG, "Note layout State: "+state);
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -215,7 +165,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
             // get current inputs and check if valid
             Record record = collectInputs();
-            if (record.checkInput()) {
+            if (record.getBloodGlucose() != 0) {
                 //upload to firestore
                 db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
                         .add(record)
@@ -224,7 +174,8 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "added new record");
-                                    startActivity(new Intent(AddRecordActivity.this, MainActivity.class));
+                                    finish();
+//                                    startActivity(new Intent(AddRecordActivity.this, MainActivity.class));
                                 } else {
                                     Log.d(TAG, task.getException().getMessage());
                                     Toast.makeText(AddRecordActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -311,7 +262,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                             // show green for healthy glucose level
                             bloodGlucoseLevel.setBackground(green_bt);
                             bloodGlucoseBG.setBackground(green_bg);
-                        } else if (bgLevel <= 10) {
+                        } else if (bgLevel <= 12) {
                             // show yellow for just above healthy range
                             bloodGlucoseLevel.setBackground(yellow_bt);
                             bloodGlucoseBG.setBackground(yellow_bg);
@@ -356,43 +307,42 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         final int mintues = c.get(Calendar.MINUTE);
         final String[] months = getResources().getStringArray(R.array.months);
 
+        final String dayYearFormat = " %02d, %d";
+        final String timeFormat = "%02d:%02d";
+
         // date input
         date = (TextView) findViewById(R.id.blood_glucose_date);
-        dateString = String.format(months[month] + " %02d, %d", day, year);
-        date.setText(" " + dateString);
+        dateString = String.format(months[month] + dayYearFormat, day, year);
+        dateToStore = (month+1)+"/"+day+"/"+year;
+        String s = " " + dateString;
+        date.setText(s);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 datePicker = new DatePickerDialog(AddRecordActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener, year, month, day);
-                datePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                ;
                 datePicker.show();
             }
         });
 
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                dateString = String.format(months[i1] + " %02d, %d", i2, i);
-                Log.d(TAG, "DateSet: date: " + months[i1] + " " + dateString);
-                date.setText(months[i1] + " " + dateString);
-            }
+        mDateSetListener = (datePicker, i, i1, i2) -> {
+            dateString = String.format(months[i1] + dayYearFormat, i2, i);
+            dateToStore = (i1+1)+"/"+i2+"/"+i;
+            Log.d(TAG, "store date: "+dateToStore);
+            Log.d(TAG, "DateSet: date: " + dateString);
+            String s1 = dateString;
+            date.setText(s1);
         };
 
         // time input
         time = (TextView) findViewById(R.id.blood_glucose_time);
-        timeString = String.format("%02d:%02d", hour, mintues);
+        timeString = String.format(timeFormat, hour, mintues);
         time.setText(timeString);
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timePicker = new TimePickerDialog(AddRecordActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog,
                         mTimeSetListener, hour, mintues, true);
-                timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePicker.show();
             }
         });
@@ -400,19 +350,21 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                timeString = String.format("%02d:%02d", i, i1);
+                timeString = String.format(timeFormat, i, i1);
                 Log.d(TAG, "Time select: " + timeString);
                 time.setText(timeString);
             }
         };
     }
 
-    private void setInputLabel() {
+    private void setInputFood() {
         labelMeal1 = (RadioGroup) findViewById(R.id.label_meal1);
         labelMeal2 = (RadioGroup) findViewById(R.id.label_meal2);
+        foodDetail = (EditText) findViewById(R.id.food_note);
     }
 
-    private ArrayList<String> getSelectedLabel() {
+    private String getFoodTag() {
+        String label1 = "";
         int selectedLabelId1 = labelMeal1.getCheckedRadioButtonId();
         switch (selectedLabelId1) {
             case (R.id.breakfast):
@@ -424,9 +376,15 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
             case (R.id.dinner):
                 label1 = "Dinner";
                 break;
+            case (R.id.snack):
+                label1 = "Snack";
         }
         Log.d(TAG, "SELECTED1: " + label1);
+        return label1;
+    }
 
+    private String getFoodTagTime() {
+        String label2 = "";
         int selectedLabelId2 = labelMeal2.getCheckedRadioButtonId();
         switch (selectedLabelId2) {
             case (R.id.before_meal):
@@ -437,11 +395,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
         Log.d(TAG, "SELECTED2: " + label2);
-
-        labels = new ArrayList<String>();
-        labels.add(label1);
-        labels.add(label2);
-        return labels;
+        return label2;
     }
 
     private void setInputMedication() {
@@ -531,17 +485,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         return s;
     }
 
-    private void setInputFood() {
-        food = (EditText) findViewById(R.id.food_input);
-        food.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_ENTER) return true;
-                return false;
-            }
-        });
-    }
-
     private void setInputNotes() {
         note = (EditText) findViewById(R.id.blood_glucose_note_input);
         note.setOnKeyListener(new View.OnKeyListener() {
@@ -562,8 +505,8 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     private Record collectInputs() {
         Record bg = new Record();
         // collect current inputs
-        String inputBG = bloodGlucoseLevel.getText().toString();
-        String inputKe = ketoneInput.getText().toString();
+
+
         String inputIn = insulinInput.getText().toString();
         String inputInTy = insulinType.getSelectedItem().toString();
         String inputOthM = otherMed.getText().toString();
@@ -574,20 +517,44 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         String inputExTM = exTimeM.getText().toString();
         String inputExTh = exTimeH.getText().toString();
         String inputOthEx = otherExercise.getText().toString();
-        String inputFood = food.getText().toString();
         String inputNote = note.getText().toString();
 
-        // check all number edit text before parse them
+        // blood glucose
+        String inputGlucose = bloodGlucoseLevel.getText().toString();
+        if (!inputGlucose.isEmpty()) {
+            bg.setBloodGlucose(Double.parseDouble(inputGlucose));
+        }
 
-        bg.setBloodGlucose(Double.parseDouble(inputBG));
-
-        // if ketone state is true, store ketone level
-        if (!inputKe.isEmpty()) {bg.setKetone(new Ketone(Double.parseDouble(inputKe)));}
+        // ketone
+        String inputKetone = ketoneInput.getText().toString();
+        if (!inputKetone.isEmpty()) {bg.setKetone(new Ketone(Double.parseDouble(inputKetone)));}
         else {bg.setKetone(new Ketone());}
 
-        bg.setDate(dateString);
-        bg.setTime(timeString);
-        bg.setLabels(getSelectedLabel());
+        // date time
+        if (!dateString.isEmpty() && !timeString.isEmpty()) {
+            bg.setDate(dateString);
+            bg.setTime(timeString);
+            String format = getResources().getString(R.string.date_from_format);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.CHINA);
+            dateTimeString = dateToStore+" "+timeString;
+            Log.d(TAG,"format: "+format+" datetime: "+dateTimeString);
+            try {
+                dateTime = dateFormat.parse(dateTimeString);
+                Log.d(TAG,"formated: "+dateTime);
+                bg.setDateTime(dateTime);
+            } catch (ParseException e){
+                Log.d(TAG, "When parsing date and time: " + e);
+            }
+        } else {Log.d(TAG, "date and time inputs are null.");}
+
+        // food
+        Food f = new Food();
+        f.setMealTag(getFoodTag());
+        f.setMealTagTime(getFoodTagTime());
+        if (!foodDetail.getText().toString().isEmpty()){
+            f.setNote(foodDetail.getText().toString());
+        }
+        bg.setFood(f);
 
         // if insulin option is not empty, store insulin usage and type. Else store only other med
         if (!inputIn.isEmpty()) {
@@ -606,17 +573,18 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
         // if exercise time is not empty store all, else only store type and other exercise note
         if (!inputExTM.isEmpty() && !inputExTh.isEmpty()) {
-            bg.setAcivity(new Exercise(inputEx, Integer.parseInt(inputExTM),Integer.parseInt(inputExTh),inputOthEx));
+            bg.setExercise(new Exercise(inputEx, Integer.parseInt(inputExTM),Integer.parseInt(inputExTh),inputOthEx));
         } else if (!inputExTM.isEmpty()) { // minute set 0
-            bg.setAcivity(new Exercise(inputEx, Integer.parseInt(inputExTM),0,inputOthEx));
+            bg.setExercise(new Exercise(inputEx, Integer.parseInt(inputExTM),0,inputOthEx));
         } else if (!inputExTh.isEmpty()) { // hour set 0
-            bg.setAcivity(new Exercise(inputEx, 0,Integer.parseInt(inputExTh),inputOthEx));
+            bg.setExercise(new Exercise(inputEx, 0,Integer.parseInt(inputExTh),inputOthEx));
         } else {
-            bg.setAcivity(new Exercise(inputEx, inputOthEx));
+            bg.setExercise(new Exercise(inputEx, inputOthEx));
         }
 
-        bg.setFood(inputFood);
-        bg.setNotes(inputNote);
+        if (!inputNote.isEmpty()) {
+            bg.setNotes(inputNote);
+        } else {bg.setNotes("");}
 
         return bg;
 
@@ -641,25 +609,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-
-        switch (id) {
-            // expandable layouts
-            case R.id.medication_title:
-                if (medicationEL.isExpanded()) {medicationEL.collapse();} else {medicationEL.expand();}
-                break;
-            case R.id.bp_hr_title:
-                if (bpHrEL.isExpanded()) {bpHrEL.collapse();} else {bpHrEL.expand();}
-                break;
-            case R.id.food_title:
-                if (foodEL.isExpanded()) {foodEL.collapse();} else {foodEL.expand();}
-                break;
-            case R.id.activity_title:
-                if (acivityEL.isExpanded()) {acivityEL.collapse();} else {acivityEL.expand();}
-                break;
-            case R.id.blood_glucose_note_title:
-                if (noteEL.isExpanded()) {noteEL.collapse();} else {noteEL.expand();}
-                break;
-        }
     }
+
 }

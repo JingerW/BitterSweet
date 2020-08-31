@@ -1,446 +1,611 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".AddRecordActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/blood_glucose_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent" />
-
-    <!-- blood glucose -->
-    <RelativeLayout
-        android:id="@+id/blood_glucose_bg"
-        android:layout_width="@dimen/water_drop_width"
-        android:layout_height="@dimen/water_drop_height"
-        android:background="@drawable/drop_green"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
-
-        <Button
-            android:id="@+id/blood_glucose"
-            android:layout_width="@dimen/water_drop_button_width"
-            android:layout_height="@dimen/water_drop_button_height"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="170dp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:hint="@string/glucose_hint"
-            android:background="@drawable/glucose_button_green" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/blood_glucose"
-            android:text="@string/blood_glucose_unit"
-            android:layout_marginTop="5dp"/>
-
-    </RelativeLayout>
-
-    <!-- if blood glucose is too high, show keystone option -->
     <LinearLayout
-        android:id="@+id/ketone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:background="@color/red"
-        android:padding="0dp"
-        android:gravity="center_vertical"
-        android:visibility="gone">
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:text="@string/ketone_note"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="10dp"
-            android:textStyle="bold"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/blood_glucose_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent" />
 
-        <LinearLayout
-            android:id="@+id/ketone_input_layout"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
-            android:visibility="invisible">
-            <EditText
-                android:id="@+id/ketone_input"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
+        <!-- blood glucose -->
+        <RelativeLayout
+            android:id="@+id/blood_glucose_bg"
+            android:layout_width="@dimen/water_drop_width"
+            android:layout_height="@dimen/water_drop_height"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/drop_green">
+
+            <Button
+                android:id="@+id/blood_glucose"
+                android:layout_width="@dimen/water_drop_button_width"
+                android:layout_height="@dimen/water_drop_button_height"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="170dp"
+                android:background="@drawable/glucose_button_green"
                 android:gravity="center"
-                android:inputType="numberDecimal"
-                android:background="@color/transparent"
-                android:imeOptions="actionDone"
-                android:textSize="12sp"/>
+                android:hint="@string/glucose_hint"
+                android:textAlignment="center"
+                android:textSize="35sp" />
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:text="@string/ketone_unit"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/blood_glucose"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/blood_glucose_unit" />
 
-        <RadioGroup
-            android:id="@+id/ketone_toggle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        </RelativeLayout>
+
+        <!-- if blood glucose is too high, show keystone option -->
+        <LinearLayout
+            android:id="@+id/ketone_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/white_round_corner"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
-            <RadioButton
-                android:id="@+id/ketone_yes"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:background="@drawable/toggle_button_background"
-                android:gravity="center"
-                android:button="@null"
-                android:textSize="12sp"
-                android:text="Yes"/>
-            <RadioButton
-                android:id="@+id/ketone_no"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:background="@drawable/toggle_button_background"
-                android:gravity="center"
-                android:button="@null"
-                android:textSize="12sp"
-                android:text="No"
-                android:checked="true"/>
-        </RadioGroup>
-    </LinearLayout>
-
-    <!-- date and time -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:padding="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/green_white_bar">
-
-        <TextView
-            android:id="@+id/blood_glucose_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
-            android:background="@color/darkgreen"
+            android:layout_marginBottom="5dp"
+            android:background="@color/red"
             android:gravity="center_vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
+            android:orientation="horizontal"
+            android:padding="0dp"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/blood_glucose_time"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:background="@color/darkgreen"
-            android:gravity="center_vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/ketone_note"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ketone_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
-    <!-- labels -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="5dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:background="@drawable/green_white_bar">
+                <EditText
+                    android:id="@+id/ketone_input"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:textSize="12sp" />
 
-        <RadioGroup
-            android:id="@+id/label_meal1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ketone_unit"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/breakfast"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:background="@drawable/breakfast_label"
-                android:button="@color/fui_transparent"/>
+            <RadioGroup
+                android:id="@+id/ketone_toggle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/white_round_corner"
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/lunch"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/lunch_label"
-                android:button="@color/fui_transparent"/>
+                <RadioButton
+                    android:id="@+id/ketone_yes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/toggle_button_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="Yes"
+                    android:textSize="12sp" />
 
-            <RadioButton
-                android:id="@+id/dinner"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/dinner_label"
-                android:button="@color/fui_transparent"/>
+                <RadioButton
+                    android:id="@+id/ketone_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/toggle_button_background"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="No"
+                    android:textSize="12sp" />
+            </RadioGroup>
+        </LinearLayout>
 
-        </RadioGroup>
-
+        <!-- date and time -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@id/label_meal1"
-            android:layout_alignStart="@id/label_meal1">
+            style="@style/GreenOutlineSectionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/icon_text_height"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/breakfast"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:gravity="center"/>
+                android:id="@+id/blood_glucose_date"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/darkgreen"
+                android:gravity="center" />
 
             <TextView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_text_height"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/lunch"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:gravity="center"/>
-
-            <TextView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_text_height"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/dinner"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:gravity="center"/>
+                android:id="@+id/blood_glucose_time"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@color/darkgreen"
+                android:gravity="center" />
 
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/label_meal2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/label_meal1"
-            android:layout_marginStart="20dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/before_meal"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:background="@drawable/before_meal_label"
-                android:button="@color/fui_transparent"/>
-
-            <RadioButton
-                android:id="@+id/after_meal"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/after_meal_label"
-                android:button="@color/fui_transparent"/>
-        </RadioGroup>
-
+        <!-- food -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_text_height"
-            android:layout_below="@id/label_meal2"
-            android:layout_alignStart="@id/label_meal2">
+            style="@style/GreenOutlineSectionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_text_height"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/before_meal"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:gravity="center"/>
+                style="@style/GreenBarTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/food" />
 
-            <TextView
-            android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_text_height"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/after_meal"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:gravity="center"/>
+            <!-- food tag -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioGroup
+                    android:id="@+id/label_meal1"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/breakfast"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:background="@drawable/breakfast_label"
+                        android:button="@color/fui_transparent" />
+
+                    <RadioButton
+                        android:id="@+id/lunch"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/lunch_label"
+                        android:button="@color/fui_transparent" />
+
+                    <RadioButton
+                        android:id="@+id/dinner"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/dinner_label"
+                        android:button="@color/fui_transparent" />
+
+                    <RadioButton
+                        android:id="@+id/snack"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/snack_label"
+                        android:button="@color/fui_transparent" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/label_meal2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/before_meal"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/before_meal_label"
+                        android:button="@color/fui_transparent" />
+
+                    <RadioButton
+                        android:id="@+id/after_meal"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/after_meal_label"
+                        android:button="@color/fui_transparent" />
+                </RadioGroup>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/breakfast"
+                        android:autoSizeTextType="uniform"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/lunch"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/dinner"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/snack"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/before_meal"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/after_meal"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/food_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/green_outline"
+                android:hint="Details"
+                android:imeOptions="actionDone"
+                android:inputType="textImeMultiLine"
+                android:padding="10dp"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <!--&lt;!&ndash; labels &ndash;&gt;-->
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@drawable/green_outline">-->
 
-    <!-- medication -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/green_white_bar"
-        android:orientation="vertical"
-        android:padding="0dp">
+        <!--<RadioGroup-->
+        <!--android:id="@+id/label_meal1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:id="@+id/medication_title"
+        <!--<RadioButton-->
+        <!--android:id="@+id/breakfast"-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_size"-->
+        <!--android:background="@drawable/breakfast_label"-->
+        <!--android:button="@color/fui_transparent"/>-->
+
+        <!--<RadioButton-->
+        <!--android:id="@+id/lunch"-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_size"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:background="@drawable/lunch_label"-->
+        <!--android:button="@color/fui_transparent"/>-->
+
+        <!--<RadioButton-->
+        <!--android:id="@+id/dinner"-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_size"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:background="@drawable/dinner_label"-->
+        <!--android:button="@color/fui_transparent"/>-->
+
+        <!--</RadioGroup>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_below="@id/label_meal1"-->
+        <!--android:layout_alignStart="@id/label_meal1">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_marginEnd="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:text="@string/breakfast"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:gravity="center"/>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginEnd="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:text="@string/lunch"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:gravity="center"/>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginEnd="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:text="@string/dinner"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:gravity="center"/>-->
+
+        <!--</LinearLayout>-->
+
+        <!--<RadioGroup-->
+        <!--android:id="@+id/label_meal2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_toEndOf="@id/label_meal1"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<RadioButton-->
+        <!--android:id="@+id/before_meal"-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_size"-->
+        <!--android:background="@drawable/before_meal_label"-->
+        <!--android:button="@color/fui_transparent"/>-->
+
+        <!--<RadioButton-->
+        <!--android:id="@+id/after_meal"-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_size"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:background="@drawable/after_meal_label"-->
+        <!--android:button="@color/fui_transparent"/>-->
+        <!--</RadioGroup>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_below="@id/label_meal2"-->
+        <!--android:layout_alignStart="@id/label_meal2">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_marginEnd="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:text="@string/before_meal"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:gravity="center"/>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="@dimen/icon_size"-->
+        <!--android:layout_height="@dimen/icon_text_height"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginEnd="1dp"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:text="@string/after_meal"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:gravity="center"/>-->
+
+        <!--</LinearLayout>-->
+
+        <!--</RelativeLayout>-->
+
+        <!-- medication -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/darkgreen"
-            android:text="@string/medication"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/green_outline"
+            android:orientation="vertical">
 
-        <!-- expandable -->
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/medication_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            <TextView
+                android:id="@+id/medication_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkgreen"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/medication" />
+
+            <!-- expandable -->
+            <!--<net.cachapa.expandablelayout.ExpandableLayout-->
+            <!--android:id="@+id/medication_expandable_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:el_duration="500"-->
+            <!--app:el_expanded="true">-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingStart="15dp"
-                        android:text="@string/insulin"/>
+                        android:text="@string/insulin" />
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <EditText
                             android:id="@+id/insulin"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:inputType="number"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone"
+                            android:inputType="number" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:gravity="center"
                             android:layout_marginStart="10dp"
-                            android:text="@string/insulin_unit"/>
+                            android:gravity="center"
+                            android:text="@string/insulin_unit" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/insulin_type"
-                            android:gravity="center_vertical"/>
+                            android:gravity="center_vertical"
+                            android:text="@string/insulin_type" />
+
                         <Spinner
                             android:id="@+id/insulin_type"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="center" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingStart="15dp"
-                        android:text="@string/other_med"/>
+                        android:text="@string/other_med" />
+
                     <EditText
                         android:id="@+id/other_medication"
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="match_parent"
-                        android:textSize="12sp"
+                        android:layout_weight="2"
                         android:imeOptions="actionDone"
-                        android:inputType="textImeMultiLine"/>
+                        android:inputType="textImeMultiLine"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
-        </net.cachapa.expandablelayout.ExpandableLayout>
+            <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <!-- bp and hr -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/green_white_bar"
-        android:orientation="vertical"
-        android:padding="0dp">
-
-        <TextView
-            android:id="@+id/bp_hr_title"
+        <!-- bp and hr -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/darkgreen"
-            android:text="@string/bp_and_hr"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/green_outline"
+            android:orientation="vertical"
+            android:padding="0dp">
 
-        <!-- expandable -->
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/bp_hr_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            <TextView
+                android:id="@+id/bp_hr_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkgreen"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/bp_and_hr" />
+
+            <!-- expandable -->
+            <!--<net.cachapa.expandablelayout.ExpandableLayout-->
+            <!--android:id="@+id/bp_hr_expandable_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:el_duration="500"-->
+            <!--app:el_expanded="false">-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -453,58 +618,63 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/blood_pressure" />
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="3"
                         android:layout_height="wrap_content"
+                        android:layout_weight="3"
                         android:gravity="center">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/bp_upper"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:text="@string/bp_upper" />
+
                         <EditText
                             android:id="@+id/bp_upper"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:inputType="number"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone"
+                            android:inputType="number" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_marginStart="3dp"
                             android:layout_marginEnd="3dp"
-                            android:layout_gravity="center"
                             android:text="/" />
+
                         <EditText
                             android:id="@+id/bp_lower"
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone"
+                            android:inputType="number" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/bp_lower"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:text="@string/bp_lower" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        android:text="@string/blood_pressure_unit"/>
+                        android:text="@string/blood_pressure_unit"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
                 <!-- heart rate -->
@@ -515,79 +685,81 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/hear_rate" />
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center">
 
                         <EditText
                             android:id="@+id/heart_rate"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:inputType="number"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone"
+                            android:inputType="number" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        android:text="@string/heart_rate_unit"/>
+                        android:text="@string/heart_rate_unit"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
             </LinearLayout>
-        </net.cachapa.expandablelayout.ExpandableLayout>
+            <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <!-- Activity -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/green_white_bar"
-        android:orientation="vertical"
-        android:padding="0dp">
-
-        <TextView
-            android:id="@+id/activity_title"
+        <!-- Activity -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/darkgreen"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:text="@string/exercise" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/green_outline"
+            android:orientation="vertical"
+            android:padding="0dp">
 
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/activity_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            <TextView
+                android:id="@+id/activity_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkgreen"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:text="@string/exercise" />
+
+            <!--<net.cachapa.expandablelayout.ExpandableLayout-->
+            <!--android:id="@+id/activity_expandable_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:el_duration="500"-->
+            <!--app:el_expanded="false">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RadioGroup
                         android:id="@+id/exercise_group"
                         android:layout_width="match_parent"
@@ -601,8 +773,8 @@
                             android:layout_height="40dp"
                             android:layout_margin="5dp"
                             android:background="@drawable/running_label"
-                            android:gravity="center"
-                            android:button="@color/fui_transparent"/>
+                            android:button="@color/fui_transparent"
+                            android:gravity="center" />
 
                         <RadioButton
                             android:id="@+id/exercise_swimming"
@@ -610,8 +782,8 @@
                             android:layout_height="40dp"
                             android:layout_margin="5dp"
                             android:background="@drawable/swimming_label"
-                            android:gravity="center"
-                            android:button="@color/fui_transparent"/>
+                            android:button="@color/fui_transparent"
+                            android:gravity="center" />
 
                         <RadioButton
                             android:id="@+id/exercise_biking"
@@ -619,8 +791,8 @@
                             android:layout_height="40dp"
                             android:layout_margin="5dp"
                             android:background="@drawable/riding_label"
-                            android:gravity="center"
-                            android:button="@color/fui_transparent"/>
+                            android:button="@color/fui_transparent"
+                            android:gravity="center" />
 
                         <RadioButton
                             android:id="@+id/exercise_fitness"
@@ -628,190 +800,211 @@
                             android:layout_height="40dp"
                             android:layout_margin="5dp"
                             android:background="@drawable/fitness_label"
-                            android:gravity="center"
-                            android:button="@color/fui_transparent"/>
+                            android:button="@color/fui_transparent"
+                            android:gravity="center" />
                     </RadioGroup>
                     <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:orientation="horizontal"-->
-                        <!--android:gravity="center">-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="@string/running"-->
-                            <!--android:textSize="12sp"/>-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="@string/swimming"-->
-                            <!--android:textSize="12sp"/>-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="@string/biking"-->
-                            <!--android:textSize="12sp"/>-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="@string/fitness"-->
-                            <!--android:textSize="12sp"/>-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:gravity="center">-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/running"-->
+                    <!--android:textSize="12sp"/>-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/swimming"-->
+                    <!--android:textSize="12sp"/>-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/biking"-->
+                    <!--android:textSize="12sp"/>-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/fitness"-->
+                    <!--android:textSize="12sp"/>-->
                     <!--</LinearLayout>-->
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/other_exercises"/>
+                        android:text="@string/other_exercises" />
+
                     <EditText
                         android:id="@+id/other_exercise_input"
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2"
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="textImeMultiLine"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="@string/exercise_time"
-                        android:gravity="center"/>
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/exercise_time" />
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:gravity="center">
+
                         <EditText
                             android:id="@+id/exercise_time_m"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:inputType="number"
+                            android:gravity="center"
                             android:imeOptions="actionDone"
-                            android:gravity="center"/>
+                            android:inputType="number" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="3dp"
                             android:paddingEnd="3dp"
-                            android:text="m"/>
+                            android:text="m" />
+
                         <EditText
                             android:id="@+id/exercise_time_h"
                             android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:inputType="number"
+                            android:gravity="center"
                             android:imeOptions="actionDone"
-                            android:gravity="center"/>
+                            android:inputType="number" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="3dp"
                             android:paddingEnd="3dp"
-                            android:text="h"/>
+                            android:text="h" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </net.cachapa.expandablelayout.ExpandableLayout>
-    </LinearLayout>
+            <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
+        </LinearLayout>
 
-    <!-- Food -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/green_white_bar"
-        android:orientation="vertical"
-        android:padding="0dp">
+        <!--&lt;!&ndash; Food &ndash;&gt;-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:background="@drawable/green_outline"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="0dp">-->
 
-        <TextView
-            android:id="@+id/food_title"
+        <!--<TextView-->
+        <!--android:id="@+id/food_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/darkgreen"-->
+        <!--android:labelFor="@id/blood_glucose_note_input"-->
+        <!--android:paddingStart="10dp"-->
+        <!--android:paddingTop="5dp"-->
+        <!--android:paddingBottom="5dp"-->
+        <!--android:text="@string/food" />-->
+
+        <!--&lt;!&ndash;<net.cachapa.expandablelayout.ExpandableLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/food_expandable_layout"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:el_duration="500"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:el_expanded="false">&ndash;&gt;-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+        <!--<Spinner-->
+        <!--android:id="@+id/food_tag"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent">-->
+        <!--</Spinner>-->
+        <!--<EditText-->
+        <!--android:id="@+id/food_input"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/edittext_long_input_height"-->
+        <!--android:inputType="textMultiLine|textCapSentences"-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_marginStart="3dp"-->
+        <!--android:layout_marginEnd="3dp"-->
+        <!--android:layout_marginBottom="3dp"-->
+        <!--android:padding="2dp"-->
+        <!--android:textSize="18sp" />-->
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash;</net.cachapa.expandablelayout.ExpandableLayout>&ndash;&gt;-->
+        <!--</LinearLayout>-->
+
+        <!-- notes -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/darkgreen"
-            android:labelFor="@id/blood_glucose_note_input"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:text="@string/food" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/green_outline"
+            android:orientation="vertical"
+            android:padding="0dp">
 
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/food_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
-            <EditText
-                android:id="@+id/food_input"
+            <TextView
+                android:id="@+id/blood_glucose_note_title"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edittext_long_input_height"
-                android:inputType="textMultiLine|textCapSentences"
-                android:background="@color/white"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="3dp"
-                android:padding="2dp"
-                android:textSize="18sp" />
-        </net.cachapa.expandablelayout.ExpandableLayout>
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                android:background="@color/darkgreen"
+                android:labelFor="@id/blood_glucose_note_input"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/note" />
 
-    <!-- notes -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/green_white_bar"
-        android:orientation="vertical"
-        android:padding="0dp">
-
-        <TextView
-            android:id="@+id/blood_glucose_note_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/darkgreen"
-            android:labelFor="@id/blood_glucose_note_input"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:text="@string/note" />
-
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/note_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            <!--<net.cachapa.expandablelayout.ExpandableLayout-->
+            <!--android:id="@+id/note_expandable_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:el_duration="500"-->
+            <!--app:el_expanded="false">-->
             <EditText
                 android:id="@+id/blood_glucose_note_input"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edittext_long_input_height"
-                android:inputType="textMultiLine|textCapSentences"
-                android:background="@color/white"
                 android:layout_marginStart="3dp"
                 android:layout_marginEnd="3dp"
                 android:layout_marginBottom="3dp"
+                android:background="@color/white"
+                android:inputType="textMultiLine|textCapSentences"
                 android:padding="2dp"
                 android:textSize="18sp" />
-        </net.cachapa.expandablelayout.ExpandableLayout>
-    </LinearLayout>
+            <!--</net.cachapa.expandablelayout.ExpandableLayout>-->
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>

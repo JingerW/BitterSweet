@@ -16,12 +16,13 @@
     <dimen name="userinfo_text_size">25dp</dimen>
 
     // icons
-    <dimen name="icon_size">50dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
     <dimen name="icon_text_height">30dp</dimen>
 
     // water drop bglucose background
     <dimen name="water_drop_height">300dp</dimen>
     <dimen name="water_drop_width">220dp</dimen>
+
     // water drop bglucose button
     <dimen name="water_drop_button_height">70dp</dimen>
     <dimen name="water_drop_button_width">140dp</dimen>

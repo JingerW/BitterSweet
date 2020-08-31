@@ -48,4 +48,10 @@ public class Medication {
     public void setOtherMeds(String otherMeds) {
         this.otherMeds = otherMeds;
     }
+
+    public boolean isEmpty(){
+        if (getInsulin() == 0 && getInsulinType() == null && getOtherMeds() == null) {
+            return true;
+        }else {return false;}
+    }
 }

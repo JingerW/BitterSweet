@@ -144,10 +144,12 @@ public class UserInfoActivity extends AppCompatActivity implements YearPickerDia
         RadioButton selectedButton = (RadioButton) genderGroup.findViewById(selectedButtonId);
         gender = selectedButton.getText().toString();
 
-        yearOfDiagnose = Integer.parseInt(yod.getText().toString());
+        yearOfDiagnose = yod.getText().toString().isEmpty() ? 0 : Integer.parseInt(yod.getText().toString());
 
-        height = Double.parseDouble(heightInput.getText().toString());
-        weight = Double.parseDouble(weightInput.getText().toString());
+        height = heightInput.getText().toString().isEmpty() ? 0 : Double.parseDouble(heightInput.getText().toString());
+        weight = weightInput.getText().toString().isEmpty() ? 0 : Double.parseDouble(weightInput.getText().toString());
+//        height = Double.parseDouble(heightInput.getText().toString());
+//        weight = Double.parseDouble(weightInput.getText().toString());
 
         Log.d(TAG, dateOfBirth+", \n"+dtype+", \n"+gender+", \n"+yearOfDiagnose+", \n"+height+", \n"+weight);
 

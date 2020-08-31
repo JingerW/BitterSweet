@@ -11,18 +11,26 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.bittersweet.Model.Record;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -53,6 +61,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     private FirebaseUser currentUser;
     private FirebaseFirestore db;
     private String uid;
+    private CollectionReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,8 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         drawerLayout.addView(contentView, 0);
 
         setFireStore();
+
+        getRecords();
 
         setButtons();
 
@@ -76,38 +87,56 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         db = FirebaseFirestore.getInstance();
         // get user id
         uid = currentUser.getUid();
+        // get reference
+        ref = db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME);
+    }
 
-        // create new blood glucose level record list
-        records = new ArrayList<Record>();
+    private void getRecords() {
+
         String dateString = getCurrentDateString();
         // fetch data from fire store and then store into an array list
-        db.collection(COLLECTION_NAME).document(uid).collection(SUB_COLLECTION_NAME)
-                .whereEqualTo("inputDate", dateString)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Record record = document.toObject(Record.class);
-                                records.add(record);
-                                record.showBloodGlucose(TAG);
-                                Log.d(TAG, "record size: "+records.size());
-                            }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date currentDate = cal.getTime();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, 1);
+        Date nextDate = cal.getTime();
+        Log.d(TAG, "start date : "+currentDate);
+        Log.d(TAG, "end date : "+nextDate);
+//        Query query = ref.orderBy("dateTime");
+        Query query = ref.orderBy("dateTime")
+                .whereGreaterThanOrEqualTo("dateTime", currentDate)
+                .whereLessThan("dateTime", nextDate);
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {Log.w(TAG, "Listen failed.", error);return;}
 
-                            // set charts
-                            setHelloLineChart(records);
-
-                        } else {
-                            Log.d(TAG, task.getException().getMessage());
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                if (snapshots != null && !snapshots.isEmpty()) {
+                    Log.d(TAG, "record size: "+snapshots.size());
+                    // create new blood glucose level record list
+                    records = new ArrayList<Record>();
+                    for (QueryDocumentSnapshot snapshot: snapshots) {
+                        Record record = snapshot.toObject(Record.class);
+                        records.add(record);
+                        record.showBloodGlucose(TAG);
                     }
-                });
+
+                    setHelloLineChart(records);
+                } else {
+                    Log.d(TAG, "record data is null");
+                }
+
+            }
+        });
     }
 
     private void setHelloLineChart(ArrayList<Record> records) {
+        Log.d(TAG, "record size: "+records.size());
+
         // find chart layer by id
         helloChart = (LineChartView) findViewById(R.id.main_display_chart);
 
@@ -120,7 +149,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
                 int count = i/xinterval;
                 int n = (count*xinterval)/xinterval;
                 int r = (count*xinterval)%xinterval;
-                Log.d(TAG, "X LABEL: "+i+" with "+String.format("%02d:%02d",n,r));
+//                Log.d(TAG, "X LABEL: "+i+" with "+String.format("%02d:%02d",n,r));
                 xaxisLabel.add(new AxisValue(i).setLabel(String.format("%02d:%02d",n,r)));
             }
         }
@@ -235,10 +264,13 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
+        DateFormat format = new SimpleDateFormat("DD/MM/YYY");
+
         final String[] months = getResources().getStringArray(R.array.months);
         // Store them into an array list and return it
         String dateString = String.format(months[month] + " %02d, %d", day, year);
         Log.d(TAG, "Current date: "+dateString);
+
         return dateString;
     }
 
